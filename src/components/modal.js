@@ -4,10 +4,16 @@ export const popupImage = popupTypeImage.querySelector(".popup__image");
 export const popupCaption = popupTypeImage.querySelector(".popup__caption");
 
 //Создание функции выхода по Escape
+
 function closeEscape(evt) {
   if (evt.code === "Escape") {
+    let popupOpened;
     if (document.querySelector(".popup_is-opened")) {
-      closeModal(document.querySelector(".popup_is-opened"));
+      popupOpened = document.querySelector(".popup_is-opened");
+    }
+
+    if (popupOpened) {
+      closeModal(popupOpened);
       document.removeEventListener("click", closeEscape);
     }
   }

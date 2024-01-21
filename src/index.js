@@ -7,7 +7,6 @@ import {
   popupCaption,
 } from "./components/modal.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
-//import {handleFormSubmit} from "./components/submit.js";
 
 // @todo: DOM узлы
 const placesList = document.querySelector(".places__list"); //Перечень карточек
@@ -35,15 +34,14 @@ const profileTitle = profileInfo.querySelector(".profile__title"); // Наход
 const profileDescription = profileInfo.querySelector(".profile__description"); //Находим поле занятия в DOM
 
 //Затем
-const form = document.forms[0]; //Обращаемся к форме редактирования профиля
+const form = document.querySelector('[name="edit-profile"]'); //Обращаемся к форме редактирования профиля
 const name = form.elements.name; //Обращаемся к элементу формы имя
 const description = form.elements.description; //Обращаемся к элементу формы занятие
 
-name.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
-description.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
-
 profileEditButton.addEventListener("click", () => {
   openModal(popupTypeEdit);
+  name.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
+  description.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
 
 popupTypeEditClose.addEventListener("click", () => {
@@ -62,8 +60,8 @@ popupTypeImageClose.addEventListener("click", () => {
   closeModal(popupTypeImage);
 });
 
-const formElement = document.forms[0]; // Воспользуйтесь методом querySelector()
 // Находим поля формы в DOM
+const formElement = form;
 const nameInput = formElement.name; // Воспользуйтесь инструментом .querySelector()
 const jobInput = formElement.description; // Воспользуйтесь инструментом .querySelector()
 
@@ -76,22 +74,23 @@ function handleFormSubmit(evt) {
 
 formElement.addEventListener("submit", handleFormSubmit);
 
-const formCard = document.forms[1]; // Воспользуйтесь методом querySelector()
+const formCard = document.querySelector('[name="new-place"]'); // Воспользуйтесь методом querySelector()
+
 // Находим поля формы в DOM
-const nameCardInput = document.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
+const nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
 const linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
 
 function formSubmit(evt) {
   evt.preventDefault();
-  const nameValue = nameCardInput.value;
-  const nameLink = linkCardInput.value;
+
   const newCard = addCard(
-    nameValue,
-    nameLink,
+    nameCardInput.value,
+    linkCardInput.value,
     deleteCard,
     openFullScreen,
     likeCard
-  ); //Создание новой карточки
+  );
+  //Создание новой карточки
   placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
   formCard.reset(); //Очищаем поля формы
   closeModal(popupTypeNewCard);
