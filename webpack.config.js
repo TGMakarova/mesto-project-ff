@@ -10,7 +10,7 @@ module.exports = {
     filename: 'main.js',
         publicPath: ''
   },
-  mode: 'development',// добавили режим разработчика
+  
   mode: 'development',
   devServer: {
     static: path.resolve(__dirname, './dist'), // путь, куда "смотрит" режим разработчика
