@@ -2,35 +2,37 @@ export const formSelector = document.querySelector('.popup__form');
 export const inputSelector = formSelector.querySelector('.popup__input');
 export const inputErrorClass = formSelector.querySelector('.popup__input_type_error');
 
-const formError = formSelector.querySelector(`.${inputSelector.id}-error`);
+//const formError = formSelector.querySelector(`.${inputSelector.id}-error`);
 
 // Функция, которая добавляет класс с ошибкой
 
-const showInputError = (element, errorMessage) => {
-  element.classList.add('popup__input_type_error');
-  formError.textContent = errorMessage;
-  formError.classList.add('popup__input-error_active');
+const showInputError = (formSelector, inputSelector, errorMessage) => {
+  const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
+  inputSelector.classList.add('popup__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('popup__input-error_active');
   };
   
   // Функция, которая удаляет класс с ошибкой
   
-const hideInputError = (element) => {
-  element.classList.remove('popup__input_type_error');
-  formError.classList.remove('popup__input-error_active');
-  formError.textContent = "";
+const hideInputError = (formSelector, inputSelector) => {
+  const errorElement = formSelector.querySelector(`.${inputSelector.id}-error`);
+  inputSelector.classList.remove('popup__input_type_error');
+  errorElement.classList.remove('popup__input-error_active');
+  errorElement.textContent = "";
   };
   
   // Функция, которая проверяет валидность поля
  
-export const isValid = () => {
+export const isValid = (formSelector, inputSelector) => {
     if (!inputSelector.validity.valid) {
       // Если поле не проходит валидацию, покажем ошибку
       
-        showInputError(inputSelector, inputSelector.validationMessage);
+        showInputError(formSelector, inputSelector, inputSelector.validationMessage);
     } else {
       // Если проходит, скроем
-      hideInputError(inputSelector);
+      hideInputError(formSelector, inputSelector);
     }
   };
   
- 
+  

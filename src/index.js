@@ -7,7 +7,7 @@ import {
   popupCaption,
 } from "./components/modal.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
-import { isValid } from "./components/validation.js";
+import { isValid,} from "./components/validation.js";
 import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
 
 // @todo: DOM узлы
@@ -105,11 +105,43 @@ formCard.addEventListener("submit", formSubmit);
 
 
 // Слушатель события input
-inputSelector.addEventListener('input', function (evt) {
+//inputSelector.addEventListener('input', function (evt) {
   // Выведем в консоль значение свойства validity.valid поля ввода, 
   // на котором слушаем событие input
-  console.log(evt.target.validity.valid);
-}); 
+  //console.log(evt.target.validity.valid);
+//}); 
 
  // Вызовем функцию isValid на каждый ввод символа
- inputSelector.addEventListener('input', isValid); 
+//inputSelector.addEventListener('input', isValid); 
+ 
+const setEventListeners = (formSelector) => {
+  // Находим все поля внутри формы,
+  // сделаем из них массив методом Array.from
+  const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
+
+  // Обойдём все элементы полученной коллекции
+  inputList.forEach((inputSelector) => {
+    // каждому полю добавим обработчик события input
+    inputSelector.addEventListener('input', () => {
+      // Внутри колбэка вызовем isValid,
+      // передав ей форму и проверяемый элемент
+      isValid(formSelector, inputSelector)
+    });
+  });
+}; 
+
+const enableValidation = () => {
+// Найдём все формы с указанным классом в DOM,
+// сделаем из них массив методом Array.from
+const formList = Array.from(document.querySelectorAll('.popup__form'));
+
+// Переберём полученную коллекцию
+formList.forEach((formSelector) => {
+  // Для каждой формы вызовем функцию setEventListeners,
+  // передав ей элемент формы
+  setEventListeners(formSelector);
+});
+};
+
+// Вызовем функцию
+enableValidation(); 
