@@ -7,6 +7,8 @@ import {
   popupCaption,
 } from "./components/modal.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
+import { isValid } from "./components/validation.js";
+import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
 
 // @todo: DOM узлы
 const placesList = document.querySelector(".places__list"); //Перечень карточек
@@ -19,6 +21,8 @@ const popupTypeNewCardClose = popupTypeNewCard.querySelector(".popup__close"); /
 const popupTypeImageClose = document.querySelector(
   ".popup_type_image .popup__close"
 ); //Закрытите попапа по изображению
+
+const regex = /[a-zа-яё\-\s]/gi; // Регулярное выражение для проверки формы
 
 // Заполняем начальными карточками
 initialCards.forEach((item) =>
@@ -97,3 +101,15 @@ function formSubmit(evt) {
 }
 
 formCard.addEventListener("submit", formSubmit);
+
+
+
+// Слушатель события input
+inputSelector.addEventListener('input', function (evt) {
+  // Выведем в консоль значение свойства validity.valid поля ввода, 
+  // на котором слушаем событие input
+  console.log(evt.target.validity.valid);
+}); 
+
+ // Вызовем функцию isValid на каждый ввод символа
+ inputSelector.addEventListener('input', isValid); 
