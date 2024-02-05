@@ -22,6 +22,8 @@ const popupTypeImageClose = document.querySelector(
   ".popup_type_image .popup__close"
 ); //Закрытите попапа по изображению
 
+
+
 const regex = /[a-zа-яё\-\s]/gi; // Регулярное выражение для проверки формы
 
 // Заполняем начальными карточками
@@ -119,13 +121,16 @@ const setEventListeners = (formSelector) => {
   // сделаем из них массив методом Array.from
   const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
 
+  const submitButtonSelector = formSelector.querySelector('.popup__button');
+  
   // Обойдём все элементы полученной коллекции
   inputList.forEach((inputSelector) => {
     // каждому полю добавим обработчик события input
     inputSelector.addEventListener('input', () => {
       // Внутри колбэка вызовем isValid,
       // передав ей форму и проверяемый элемент
-      isValid(formSelector, inputSelector)
+      isValid(formSelector, inputSelector);
+      toggleButtonState(inputList, submitButtonSelector);
     });
   });
 }; 
@@ -144,4 +149,30 @@ formList.forEach((formSelector) => {
 };
 
 // Вызовем функцию
-enableValidation(); 
+enableValidation();
+
+// Функция принимает массив полей
+
+const hasInvalidInput = (inputList) => {
+  // проходим по этому массиву методом some
+  return inputList.some((inputSelector) => {
+        // Если поле не валидно, колбэк вернёт true
+    // Обход массива прекратится и вся функция
+    // hasInvalidInput вернёт true
+
+    return !inputSelector.validity.valid;
+  })
+}; 
+
+const toggleButtonState = (inputList, submitButtonSelector) => {
+  // Если есть хотя бы один невалидный инпут
+  if (hasInvalidInput(inputList)) {
+    // сделай кнопку неактивной
+        submitButtonSelector.disabled = true;
+    submitButtonSelector.classList.add('popup__button_disabled');
+  } else {
+        // иначе сделай кнопку активной
+        submitButtonSelector.disabled = false;
+        submitButtonSelector.classList.remove('popup__button_disabled');
+  }
+}; 

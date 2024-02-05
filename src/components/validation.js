@@ -2,6 +2,7 @@ export const formSelector = document.querySelector('.popup__form');
 export const inputSelector = formSelector.querySelector('.popup__input');
 export const inputErrorClass = formSelector.querySelector('.popup__input_type_error');
 
+
 //const formError = formSelector.querySelector(`.${inputSelector.id}-error`);
 
 // Функция, которая добавляет класс с ошибкой
@@ -25,9 +26,13 @@ const hideInputError = (formSelector, inputSelector) => {
   // Функция, которая проверяет валидность поля
  
 export const isValid = (formSelector, inputSelector) => {
-    if (!inputSelector.validity.valid) {
-      // Если поле не проходит валидацию, покажем ошибку
-      
+  if (!inputSelector.validity.patternMismatch) {
+    inputSelector.setCustomValidity(inputSelector.dataset.errorMessage);
+  } else {
+    inputSelector.setCustomValidity("");
+  }
+  
+  if (!inputSelector.validity.valid) {
         showInputError(formSelector, inputSelector, inputSelector.validationMessage);
     } else {
       // Если проходит, скроем
