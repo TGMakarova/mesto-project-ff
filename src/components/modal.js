@@ -1,10 +1,6 @@
-const popup = document.querySelector(".popup");
-export const popupTypeImage = document.querySelector(".popup_type_image");
-export const popupImage = popupTypeImage.querySelector(".popup__image");
-export const popupCaption = popupTypeImage.querySelector(".popup__caption");
+import {popupTypeImage, popupImage, popupCaption} from "./constants.js"
 
 //Создание функции выхода по Escape
-
 function closeEscape(evt) {
   if (evt.code === "Escape") {
     let popupOpened;
@@ -44,7 +40,7 @@ export function closeModal(popup) {
   document.removeEventListener("keydown", closeEscape);
   document.removeEventListener("click", closeOverlay);
 }
-
+//Создание функции полного экрана
 export function openFullScreen(name, link) {
   popupImage.src = link;
   popupImage.alt = name;

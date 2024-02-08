@@ -1,54 +1,22 @@
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
-import { closeModal, openFullScreen, openModal } from "./components/modal.js";
-import {
-  popupTypeImage,
-  popupImage,
-  popupCaption,
-} from "./components/modal.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
+import { closeModal, openFullScreen, openModal } from "./components/modal.js";
 import { isValid,} from "./components/validation.js";
-import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
-
-// @todo: DOM узлы
-const placesList = document.querySelector(".places__list"); //Перечень карточек
-const profileEditButton = document.querySelector(".profile__edit-button"); //Кнопка редактирования профиля
-const profileAddButton = document.querySelector(".profile__add-button"); //Кнопка добавления карточки
-const popupTypeEdit = document.querySelector(".popup_type_edit"); //Редактирование попапа
-const popupTypeEditClose = popupTypeEdit.querySelector(".popup__close"); //Закрытие попапа редактирования профиля
-const popupTypeNewCard = document.querySelector(".popup_type_new-card"); // Редактирование новой карточки попапа
-const popupTypeNewCardClose = popupTypeNewCard.querySelector(".popup__close"); //Закрытие попапа редактирования новой карточки
-const popupTypeImageClose = document.querySelector(
-  ".popup_type_image .popup__close"
-); //Закрытите попапа по изображению
-
-
+//import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
+import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose } from "./components/constants.js";
+import { popupTypeNewCard, popupTypeNewCardClose, popupTypeImageClose}from "./components/constants.js";
+import {profileInfo, profileTitle, profileDescription} from "./components/constants.js";
+import {popupTypeImage, popupImage, popupCaption} from "./components/constants.js";
 
 const regex = /[a-zа-яё\-\s]/gi; // Регулярное выражение для проверки формы
 
-// Заполняем начальными карточками
+// Первоначальное заполнение карточек из массива
 initialCards.forEach((item) =>
   placesList.append(
     addCard(item.name, item.link, deleteCard, openFullScreen, likeCard)
   )
 );
-
-// В popup формы редактирования профиля вносим первоначальные значения
-//Сначала
-const profileInfo = document.querySelector(".profile__info"); // Находим форму в DOM
-const profileTitle = profileInfo.querySelector(".profile__title"); // Находим поле имени формы в DOM
-const profileDescription = profileInfo.querySelector(".profile__description"); //Находим поле занятия в DOM
-
-//Затем
-const form = document.querySelector('[name="edit-profile"]'); //Обращаемся к форме редактирования профиля
-const name = form.elements.name; //Обращаемся к элементу формы имя
-const description = form.elements.description; //Обращаемся к элементу формы занятие
-
-profileEditButton.addEventListener("click", () => {
-  openModal(popupTypeEdit);
-  name.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
-  description.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
-});
 
 popupTypeEditClose.addEventListener("click", () => {
   closeModal(popupTypeEdit);
@@ -64,6 +32,17 @@ popupTypeNewCardClose.addEventListener("click", () => {
 
 popupTypeImageClose.addEventListener("click", () => {
   closeModal(popupTypeImage);
+});
+
+//Первоначальное заполнение данными профиля: имя и знятие
+const form = document.querySelector('[name="edit-profile"]'); //Обращаемся к форме редактирования профиля
+const name = form.elements.name; //Обращаемся к элементу формы имя
+const description = form.elements.description; //Обращаемся к элементу формы занятие
+
+profileEditButton.addEventListener("click", () => {
+  openModal(popupTypeEdit);
+  name.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
+  description.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
 
 // Находим поля формы в DOM
@@ -96,83 +75,13 @@ function formSubmit(evt) {
     openFullScreen,
     likeCard
   );
+
   //Создание новой карточки
   placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
   formCard.reset(); //Очищаем поля формы
   closeModal(popupTypeNewCard);
+  
 }
 
 formCard.addEventListener("submit", formSubmit);
 
-
-
-// Слушатель события input
-//inputSelector.addEventListener('input', function (evt) {
-  // Выведем в консоль значение свойства validity.valid поля ввода, 
-  // на котором слушаем событие input
-  //console.log(evt.target.validity.valid);
-//}); 
-
- // Вызовем функцию isValid на каждый ввод символа
-//inputSelector.addEventListener('input', isValid); 
- 
-const setEventListeners = (formSelector) => {
-  // Находим все поля внутри формы,
-  // сделаем из них массив методом Array.from
-  const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
-
-  const submitButtonSelector = formSelector.querySelector('.popup__button');
-  
-  // Обойдём все элементы полученной коллекции
-  inputList.forEach((inputSelector) => {
-    // каждому полю добавим обработчик события input
-    inputSelector.addEventListener('input', () => {
-      // Внутри колбэка вызовем isValid,
-      // передав ей форму и проверяемый элемент
-      isValid(formSelector, inputSelector);
-      toggleButtonState(inputList, submitButtonSelector);
-    });
-  });
-}; 
-
-const enableValidation = () => {
-// Найдём все формы с указанным классом в DOM,
-// сделаем из них массив методом Array.from
-const formList = Array.from(document.querySelectorAll('.popup__form'));
-
-// Переберём полученную коллекцию
-formList.forEach((formSelector) => {
-  // Для каждой формы вызовем функцию setEventListeners,
-  // передав ей элемент формы
-  setEventListeners(formSelector);
-});
-};
-
-// Вызовем функцию
-enableValidation();
-
-// Функция принимает массив полей
-
-const hasInvalidInput = (inputList) => {
-  // проходим по этому массиву методом some
-  return inputList.some((inputSelector) => {
-        // Если поле не валидно, колбэк вернёт true
-    // Обход массива прекратится и вся функция
-    // hasInvalidInput вернёт true
-
-    return !inputSelector.validity.valid;
-  })
-}; 
-
-const toggleButtonState = (inputList, submitButtonSelector) => {
-  // Если есть хотя бы один невалидный инпут
-  if (hasInvalidInput(inputList)) {
-    // сделай кнопку неактивной
-        submitButtonSelector.disabled = true;
-    submitButtonSelector.classList.add('popup__button_disabled');
-  } else {
-        // иначе сделай кнопку активной
-        submitButtonSelector.disabled = false;
-        submitButtonSelector.classList.remove('popup__button_disabled');
-  }
-}; 
