@@ -2,7 +2,7 @@ import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
 import { closeModal, openFullScreen, openModal } from "./components/modal.js";
-import { isValid,} from "./components/validation.js";
+import { validationConfig, enableValidation} from "./components/validation.js";
 //import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
 import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose } from "./components/constants.js";
 import { popupTypeNewCard, popupTypeNewCardClose, popupTypeImageClose}from "./components/constants.js";
@@ -85,3 +85,5 @@ function formSubmit(evt) {
 
 formCard.addEventListener("submit", formSubmit);
 
+// Вызовем функцию
+enableValidation(validationConfig); 
