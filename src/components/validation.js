@@ -26,7 +26,7 @@ const hideInputError = (validationConfig, formElement, inputElement) => {
   errorElement.textContent = '';
 };
 
-const isValid = (formElement, inputElement) => {
+const isValid = (validationConfig, formElement, inputElement) => {
   if (inputElement.validity.patternMismatch) {
     // Если поле не проходит валидацию, покажем ошибку
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
@@ -47,7 +47,7 @@ const isValid = (formElement, inputElement) => {
   }
 };
 
-const setEventListeners = (formElement) => {
+const setEventListeners = (validationConfig, formElement) => {
   // Находим все поля внутри формы,
   // сделаем из них массив методом Array.from
  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
@@ -60,7 +60,7 @@ const setEventListeners = (formElement) => {
     inputElement.addEventListener('input', () => {
       // Внутри колбэка вызовем isValid,
       // передав ей форму и проверяемый элемент
-      isValid(formElement, inputElement);
+      isValid(validationConfig, formElement, inputElement);
       toggleButton(validationConfig, inputList, buttonElement);
     });
   });
@@ -105,7 +105,15 @@ export const enableValidation = (validationConfig) => {
   formList.forEach((formElement) => {
     // Для каждой формы вызовем функцию setEventListeners,
     // передав ей элемент формы
-    setEventListeners(formElement);
+    setEventListeners(validationConfig, formElement);
   });
 };
 
+export const clearValidation = (formElement, validationConfig) => {
+  //const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+   inputList.forEach(inputElement => {
+     hideInputError(validationConfig, formElement, inputElement);
+     
+   });
+}

@@ -2,14 +2,15 @@ import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
 import { closeModal, openFullScreen, openModal } from "./components/modal.js";
-import { validationConfig, enableValidation} from "./components/validation.js";
+import { validationConfig, enableValidation, clearValidation} from "./components/validation.js";
 //import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
 import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose } from "./components/constants.js";
 import { popupTypeNewCard, popupTypeNewCardClose, popupTypeImageClose}from "./components/constants.js";
 import {profileInfo, profileTitle, profileDescription} from "./components/constants.js";
-import {popupTypeImage, popupImage, popupCaption} from "./components/constants.js";
+import { popupTypeImage, popupImage, popupCaption } from "./components/constants.js";
 
-const regex = /[a-zа-яё\-\s]/gi; // Регулярное выражение для проверки формы
+
+
 
 // Первоначальное заполнение карточек из массива
 initialCards.forEach((item) =>
@@ -40,6 +41,7 @@ const name = form.elements.name; //Обращаемся к элементу фо
 const description = form.elements.description; //Обращаемся к элементу формы занятие
 
 profileEditButton.addEventListener("click", () => {
+  clearValidation(formElement, validationConfig);
   openModal(popupTypeEdit);
   name.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
   description.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
@@ -87,3 +89,18 @@ formCard.addEventListener("submit", formSubmit);
 
 // Вызовем функцию
 enableValidation(validationConfig); 
+
+fetch('https://nomoreparties.co/v1/wff-cohort-5/cards', {
+  headers: {
+    authorization: '6273fa6e-eb51-4455-bd96-4d161b401fc0'
+  },
+  method:'GET'
+})
+  .then(res => res.json())
+  .then((result) => {
+    console.log(result);
+  });
+
+  
+
+  
