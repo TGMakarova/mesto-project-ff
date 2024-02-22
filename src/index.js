@@ -1,23 +1,27 @@
 import "./pages/index.css";
-import { initialCards } from "./scripts/cards.js";
+//import { initialCards } from "./scripts/cards.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
 import { closeModal, openFullScreen, openModal } from "./components/modal.js";
 import { validationConfig, enableValidation, clearValidation} from "./components/validation.js";
 //import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
-import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose } from "./components/constants.js";
+import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose, profileImage} from "./components/constants.js";
 import { popupTypeNewCard, popupTypeNewCardClose, popupTypeImageClose}from "./components/constants.js";
 import {profileInfo, profileTitle, profileDescription} from "./components/constants.js";
 import { popupTypeImage, popupImage, popupCaption } from "./components/constants.js";
-
+import { iAmUser, receiveCards, myDatas, addCardServer} from "./components/api.js";
+//import { initialCards } from "./scripts/cards.js";
 
 
 
 // Первоначальное заполнение карточек из массива
+/*
 initialCards.forEach((item) =>
   placesList.append(
     addCard(item.name, item.link, deleteCard, openFullScreen, likeCard)
   )
 );
+*/
+
 
 popupTypeEditClose.addEventListener("click", () => {
   closeModal(popupTypeEdit);
@@ -53,6 +57,7 @@ const nameInput = formElement.name; // Воспользуйтесь инстру
 const jobInput = formElement.description; // Воспользуйтесь инструментом .querySelector()
 
 function handleFormSubmit(evt) {
+ 
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   profileTitle.textContent = nameInput.value; //Присваиваем значение элементу формы имя
   profileDescription.textContent = jobInput.value; //Присваиваем значение элементу формы занятие
@@ -90,17 +95,49 @@ formCard.addEventListener("submit", formSubmit);
 // Вызовем функцию
 enableValidation(validationConfig); 
 
-fetch('https://nomoreparties.co/v1/wff-cohort-5/cards', {
-  headers: {
-    authorization: '6273fa6e-eb51-4455-bd96-4d161b401fc0'
-  },
-  method:'GET'
-})
-  .then(res => res.json())
-  .then((result) => {
-    console.log(result);
-  });
 
-  
+//iAmUser();
 
-  
+//receiveCards();
+
+const promises = ([iAmUser(), receiveCards()])
+  Promise.all (promises)
+    .then(([user, cards]) => {
+        const resultJSON = JSON.stringify(user);
+        console.log(typeof resultJSON);
+        console.log(resultJSON);
+        const aim = JSON.parse(resultJSON);
+        console.log(typeof aim);
+        console.log(aim);
+        profileTitle.textContent = aim.name;
+        profileDescription.textContent = aim.about;
+        console.log(aim.name);
+        console.log(profileTitle.textContent);
+        console.log(profileDescription.textContent);
+        profileImage.link = aim.avatar;
+        console.log(aim.avatar);
+        const myID = aim._id;
+        console.log(aim._id);
+        console.log(myID);
+        
+        const cardsJSON = JSON.stringify(cards);
+        console.log(typeof cardsJSON);
+        console.log(cardsJSON);
+        const enterCards = JSON.parse(cardsJSON);
+        console.log(typeof enterCards);
+        console.log(enterCards);
+        let i;
+      for (i = 0; i < enterCards.length; i++) {
+        const ownerID = enterCards[i].owner._id;
+        console.log(ownerID);
+            placesList.append(
+                addCard(enterCards[i].name, enterCards[i].link, deleteCard, openFullScreen, likeCard, myID, ownerID));
+          
+          
+        }
+        });
+    
+
+myDatas();
+
+//addCardServer();

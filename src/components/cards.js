@@ -3,7 +3,7 @@ const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
 
-export function addCard(name, link, deleteCard, openFullScreen, likeCard) {
+export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, ownerID) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
   const titleCard = cardElement.querySelector(".card__title");
@@ -18,7 +18,13 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard) {
   imageCard.addEventListener("click", function () {
     openFullScreen(name, link);
   });
-  deleteButton.addEventListener("click", deleteCard);
+  if (myID === ownerID) {
+    deleteButton.addEventListener("click", deleteCard)
+  }
+  else {
+    deleteButton.remove()
+  };
+
   cardLikeButton.addEventListener("click", likeCard);
   return cardElement;
 }
