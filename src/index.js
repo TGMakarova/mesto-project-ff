@@ -130,14 +130,21 @@ const promises = ([iAmUser(), receiveCards()])
       for (i = 0; i < enterCards.length; i++) {
         const ownerID = enterCards[i].owner._id;
         const likeNumber = enterCards[i].likes.length;
+        const cardID = enterCards[i]._id;
+        console.log(cardID);
         console.log(likeNumber);
         console.log(ownerID);
             placesList.append(
-                addCard(enterCards[i].name, enterCards[i].link, deleteCard, openFullScreen, likeCard, myID, ownerID, likeNumber));
-        }
+                addCard(enterCards[i].name, enterCards[i].link, deleteCard, openFullScreen, likeCard, myID, ownerID, likeNumber, cardID));
+      }
+  
+      
         });
     
 
 myDatas();
 
 //addCardServer();
+/*
+
+*/

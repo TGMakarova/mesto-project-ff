@@ -2,7 +2,7 @@ import {profileInfo, profileTitle, profileDescription, profileImage, placesList}
 import { addCard, deleteCard, likeCard } from "./cards.js";
 import { closeModal, openFullScreen, openModal } from "./modal.js";
 
-const config = {
+export const config = {
      baseUrl:'https://nomoreparties.co/v1/wff-cohort-7', 
     headers: {
              authorization: '04aae92a-972d-42dc-b1c4-d7cc58bae396',
@@ -107,12 +107,13 @@ export const myDatas = () => {
         headers: config.headers,
         method: 'POST',
         body: JSON.stringify({
-            name: 'Saint-Petersburg',
-            link: 'https://i.postimg.cc/2jq80kvJ/IMG-9631.jpg'
+            name: 'Боровое',
+            link: 'https://i.postimg.cc/W3DHnBVx/IMG-6297.jpg'
     }) 
     
 })
 }
+
 */
 
   
