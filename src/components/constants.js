@@ -11,6 +11,7 @@ export const placesList = document.querySelector(".places__list"); //Переч�
 //DOM- элементы профиля
 export const profileEditButton = document.querySelector(".profile__edit-button"); //Кнопка редактирования профиля
 export const profileAddButton = document.querySelector(".profile__add-button"); //Кнопка добавления карточки
+export const profileAvatarButton = document.querySelector(".profile__avatar-button"); //Кнопка изменения аватара
 export const profileInfo = document.querySelector(".profile__info"); // Находим форму в DOM
 export const profileTitle = profileInfo.querySelector(".profile__title"); // Находим поле имени формы в DOM
 export const profileDescription = profileInfo.querySelector(".profile__description"); //Находим поле занятия в DOM
@@ -30,6 +31,11 @@ export const popupTypeImageClose = document.querySelector(".popup_type_image .po
 export const popupTypeImage = document.querySelector(".popup_type_image");
 export const popupImage = popupTypeImage.querySelector(".popup__image");
 export const popupCaption = popupTypeImage.querySelector(".popup__caption");
+
+//DOM  - элементы редактирования аватара
+export const popupTypeAvatar = document.querySelector(".popup_type_avatar"); // Редактирование  попапа аватара
+export const popupTypeAvatarClose = popupTypeAvatar.querySelector(".popup__close"); //Закрытие  попапа аватара
+//export const popupTypeAvatarInput = document.querySelector(".popup_type_avatar .popup__input .popup__input_type_url");
 
 //DOM - эементы попапа для инпутов
 

@@ -4,10 +4,11 @@ import { addCard, deleteCard, likeCard } from "./components/cards.js";
 import { closeModal, openFullScreen, openModal } from "./components/modal.js";
 import { validationConfig, enableValidation, clearValidation} from "./components/validation.js";
 //import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
-import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose, profileImage} from "./components/constants.js";
+import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose, profileImage, profileAvatarButton} from "./components/constants.js";
 import { popupTypeNewCard, popupTypeNewCardClose, popupTypeImageClose}from "./components/constants.js";
 import {profileInfo, profileTitle, profileDescription} from "./components/constants.js";
 import { popupTypeImage, popupImage, popupCaption } from "./components/constants.js";
+import { popupTypeAvatar, popupTypeAvatarClose, popupTypeAvatarInput } from "./components/constants.js";
 import { iAmUser, receiveCards, myDatas, addCardServer} from "./components/api.js";
 //import { initialCards } from "./scripts/cards.js";
 
@@ -31,6 +32,10 @@ profileAddButton.addEventListener("click", () => {
   openModal(popupTypeNewCard);
 });
 
+profileAvatarButton.addEventListener("click", () => {
+  openModal(popupTypeAvatar);
+})
+
 popupTypeNewCardClose.addEventListener("click", () => {
   closeModal(popupTypeNewCard);
 });
@@ -38,6 +43,10 @@ popupTypeNewCardClose.addEventListener("click", () => {
 popupTypeImageClose.addEventListener("click", () => {
   closeModal(popupTypeImage);
 });
+
+popupTypeAvatarClose.addEventListener("click", () => {
+  closeModal(popupTypeAvatar);
+})
 
 //Первоначальное заполнение данными профиля: имя и знятие
 const form = document.querySelector('[name="edit-profile"]'); //Обращаемся к форме редактирования профиля
@@ -90,7 +99,25 @@ function formSubmit(evt) {
   
 }
 
+
+
 formCard.addEventListener("submit", formSubmit);
+
+// Находим поля формы аватара в DOM
+const formAvatar = document.querySelector('[name="new-avatar"]'); // Воспользуйтесь методом querySelector()
+
+  const linkAvatarInput = formAvatar.querySelector('[name="link"]');// Воспользуйтесь инструментом .querySelector()
+  console.log(linkAvatarInput);
+  
+function avatarLinkSubmit(evt) {
+  
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  
+  closeModal(popupTypeAvatar);
+}
+
+formAvatar.addEventListener("submit", avatarLinkSubmit);
+
 
 // Вызовем функцию
 enableValidation(validationConfig); 
