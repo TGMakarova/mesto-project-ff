@@ -43,14 +43,21 @@ export function deleteCard(card, cardID) {
   
 }
 
-//Функция like
-export function likeCard(event, cardID) {
-  event.target.classList.toggle("card__like-button_is-active");
-  
+/*Функция like
+export function likeCard(card,  cardID) {
+  //event.target.classList.toggle("card__like-button_is-active");
+card.classList.toggle("card__like-button_is-active");
    
-  //likeCardServer(cardID);
+  likeCardServer(cardID);
 }
+*/
 
+export function likeCard(buttonLike, cardID) {
+  //event.target.classList.toggle("card__like-button_is-active");
+buttonLike.classList.toggle("card__like-button_is-active");
+   
+  likeCardServer(cardID);
+}
 
 // @todo: Функция создания карточки
 
@@ -86,7 +93,9 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
 
   
   
-  cardLikeButton.addEventListener("click", likeCard)
+  cardLikeButton.addEventListener("click", () => {
+    likeCard( cardLikeButton, cardID)
+  });
 
   return cardElement;
 

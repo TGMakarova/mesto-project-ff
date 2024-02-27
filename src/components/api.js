@@ -48,7 +48,8 @@ export const myDatas = () => {
     })  
 }
 
-/*export const addCardServer = (newCardObject) => {
+
+export const addCardServer = (newCardObject) => {
     fetch(`${config.baseUrl}/cards`, {
         headers: config.headers,
         method: 'POST',
@@ -60,6 +61,5 @@ export const myDatas = () => {
 })
 }
 
-*/
 
   

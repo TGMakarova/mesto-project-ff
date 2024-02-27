@@ -12,7 +12,7 @@ import { popupTypeAvatar, popupTypeAvatarClose, popupTypeAvatarInput } from "./c
 import { iAmUser, receiveCards, myDatas, addCardServer} from "./components/api.js";
 //import { initialCards } from "./scripts/cards.js";
 
-const newCardObject = {name:'Borovoe', link: 'https://i.postimg.cc/W3DHnBVx/IMG-6297.jpg' };
+const newCardObject = {name:'Астана', link: 'https://i.postimg.cc/wv55FG9C/IMG-6284.jpg' };
 
 // Первоначальное заполнение карточек из массива
 /*
@@ -188,7 +188,7 @@ const promises = ([iAmUser(), receiveCards()])
           console.log(card._id);
         
           })
-    
+        console.log(cards);
       });
   
   
