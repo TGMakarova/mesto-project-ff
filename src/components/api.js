@@ -9,61 +9,7 @@ export const config = {
             'Content-Type': 'application/json'
         }
 }
- /*
-export const iAmUser = () => {
-    return fetch(`${config.baseUrl}/users/me`, {
-        headers: config.headers,
-    }).then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    })
-   
-        .then((result) => {
-            const resultJSON = JSON.stringify(result);
-            console.log(typeof resultJSON);
-            console.log(resultJSON);
-            const aim = JSON.parse(resultJSON);
-            console.log(typeof aim);
-            console.log(aim);
-            profileTitle.textContent = aim.name;
-            profileDescription.textContent = aim.about;
-            console.log(aim.name);
-            console.log(profileTitle.textContent);
-            console.log(profileDescription.textContent);
-            profileImage.link = aim.avatar;
-            console.log(aim.avatar);
-            const myID = aim._id;
-            console.log(aim._id);
-            console.log(myID);
-        }); 
-};
-
-export const receiveCards = () => {
-    return fetch(`${config.baseUrl}/cards`, {
-        headers: config.headers,
-        method: 'GET'
-    })
-        .then(res => {
-            if (res.ok) { return res.json(); }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
-        .then((result) => {
-            const resultJSON = JSON.stringify(result);
-            console.log(typeof resultJSON);
-            console.log(resultJSON);
-            const enterCards = JSON.parse(resultJSON);
-            console.log(typeof enterCards);
-            console.log(enterCards);
-            let i;
-            for(i = 0; i <  enterCards.length; i++) {
-        placesList.append(      
-            addCard(enterCards[i].name, enterCards[i].link, deleteCard, openFullScreen, likeCard));
-    }      
-        });    
-        };
-    */
+ 
 
 const checkError = (res) => {
     if (res.ok) {
@@ -102,13 +48,13 @@ export const myDatas = () => {
     })  
 }
 
-/*export const addCardServer = () => {
+/*export const addCardServer = (newCardObject) => {
     fetch(`${config.baseUrl}/cards`, {
         headers: config.headers,
         method: 'POST',
         body: JSON.stringify({
-            name: 'Боровое',
-            link: 'https://i.postimg.cc/W3DHnBVx/IMG-6297.jpg'
+            name: newCardObject.name,
+            link: newCardObject.link
     }) 
     
 })

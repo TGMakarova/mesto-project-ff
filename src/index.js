@@ -12,7 +12,7 @@ import { popupTypeAvatar, popupTypeAvatarClose, popupTypeAvatarInput } from "./c
 import { iAmUser, receiveCards, myDatas, addCardServer} from "./components/api.js";
 //import { initialCards } from "./scripts/cards.js";
 
-
+const newCardObject = {name:'Borovoe', link: 'https://i.postimg.cc/W3DHnBVx/IMG-6297.jpg' };
 
 // Первоначальное заполнение карточек из массива
 /*
@@ -126,7 +126,7 @@ enableValidation(validationConfig);
 //iAmUser();
 
 //receiveCards();
-
+/*
 const promises = ([iAmUser(), receiveCards()])
   Promise.all (promises)
     .then(([user, cards]) => {
@@ -152,9 +152,12 @@ const promises = ([iAmUser(), receiveCards()])
         console.log(cardsJSON);
         const enterCards = JSON.parse(cardsJSON);
         console.log(typeof enterCards);
-        console.log(enterCards);
+      console.log(enterCards);
+      
         let i;
       for (i = 0; i < enterCards.length; i++) {
+        const cardTitle = enterCards[i].name;
+        const cardImage = enterCards[i].link;
         const ownerID = enterCards[i].owner._id;
         const likeNumber = enterCards[i].likes.length;
         const cardID = enterCards[i]._id;
@@ -162,16 +165,39 @@ const promises = ([iAmUser(), receiveCards()])
         console.log(likeNumber);
         console.log(ownerID);
             placesList.append(
-                addCard(enterCards[i].name, enterCards[i].link, deleteCard, openFullScreen, likeCard, myID, ownerID, likeNumber, cardID));
+                addCard(cardTitle, cardImage, deleteCard, openFullScreen, likeCard, myID, ownerID, likeNumber, cardID));
       }
   
       
-        });
+    });
+     */   
+    const promises = ([iAmUser(), receiveCards()])
+    Promise.all (promises)
+      .then(([user, cards]) => {
+          
+          profileTitle.textContent = user.name;
+          profileDescription.textContent = user.about;
+          
+          console.log(profileTitle.textContent);
+          console.log(profileDescription.textContent);
+        cards.forEach((card) => {
+          placesList.append(
+            addCard(card.name, card.link, deleteCard, openFullScreen, likeCard, user._id, card.owner._id, card.likes.length, card._id));
+          console.log(user._id);
+          console.log(card.owner._id);
+          console.log(card._id);
+        
+          })
+    
+      });
+  
+  
+
     
 
 myDatas();
 
-//addCardServer();
-/*
+//addCardServer(newCardObject);
 
-*/
+
+
