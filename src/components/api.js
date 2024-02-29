@@ -67,7 +67,7 @@ export const updateUserAvatar = (linkAvatar) => {
       if (res.ok) {
           return res.json();     
       }
-        return Promise.reject(`ОЫшибка: ${res.status}`);
+        return Promise.reject(`Ошибка: ${res.status}`);
     })  
 }
 

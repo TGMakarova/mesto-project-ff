@@ -92,18 +92,21 @@ formCard.addEventListener("submit", formSubmit);
 // Находим поля формы аватара в DOM
 const formAvatar = document.querySelector('[name="new-avatar"]'); 
 const linkAvatarInput = formAvatar.link;
-
+/*
 //Создаем функцию редактирования аватара
- function avatarLinkSubmit (evt)  {
+function avatarLinkSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const linkAvatar = linkAvatarInput.value;
   console.log(linkAvatar);
   updateUserAvatar(linkAvatar)
-  .then
-  document.querySelector('.profile__image').backgroundImage.src = linkAvatar;
-  closeModal(popupTypeAvatar); 
+    .then((res) => {
+      profileImage.src = res(linkAvatar);
+      
+      closeModal(popupTypeAvatar);
+    }
+)
 }
-
+*/
 // Вызовем функцию
 enableValidation(validationConfig); 
 
@@ -134,7 +137,9 @@ myDatas();
 //addCardServer(newCardObject);
 
 //Вызов функции редактирования аватара
-formAvatar.addEventListener("submit", () => {
+/*
+formAvatar.addEventListener("submit", (evt) => {
   avatarLinkSubmit(evt);
 });
 
+*/
