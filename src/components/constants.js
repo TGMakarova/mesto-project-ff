@@ -15,7 +15,7 @@ export const profileAddButton = document.querySelector(".profile__add-button"); 
 export const profileInfo = document.querySelector(".profile__info"); // Находим форму в DOM
 export const profileTitle = profileInfo.querySelector(".profile__title"); // Находим поле имени формы в DOM
 export const profileDescription = profileInfo.querySelector(".profile__description"); //Находим поле занятия в DOM
-export const profileImage = document.querySelector(".profile__image"); //Находим поле изображение в DOM
+export let profileImage = document.querySelector(".profile__image"); //Находим поле изображение в DOM
 
 //DOM -элементы попапа редактирования профиля
 export const popup = document.querySelector(".popup");

@@ -92,32 +92,33 @@ formCard.addEventListener("submit", formSubmit);
 // Находим поля формы аватара в DOM
 const formAvatar = document.querySelector('[name="new-avatar"]'); 
 const linkAvatarInput = formAvatar.link;
-/*
+
 //Создаем функцию редактирования аватара
 function avatarLinkSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const linkAvatar = linkAvatarInput.value;
   console.log(linkAvatar);
   updateUserAvatar(linkAvatar)
-    .then((res) => {
-      profileImage.src = res(linkAvatar);
+    .then((data) => {
+      //document.querySelector('.profile-image').style.backgroundImage = url( linkAvatar );
+      profileImage.src = `url(${linkAvatar})`;
       
       closeModal(popupTypeAvatar);
     }
 )
 }
-*/
+
 // Вызовем функцию
 enableValidation(validationConfig); 
 
     const promises = ([iAmUser(), receiveCards()])
     Promise.all (promises)
       .then(([user, cards]) => {
-         profileImage.src = `url(${user.avatar})`;
+        // profileImage.src = `url(${user.avatar})`;
           profileTitle.textContent = user.name;
           profileDescription.textContent = user.about;
         console.log(user);
-        console.log(profileImage.src);
+      //  console.log(profileImage.src);
           console.log(profileTitle.textContent);
           console.log(profileDescription.textContent);
         cards.forEach((card) => {
@@ -137,9 +138,8 @@ myDatas();
 //addCardServer(newCardObject);
 
 //Вызов функции редактирования аватара
-/*
+
 formAvatar.addEventListener("submit", (evt) => {
   avatarLinkSubmit(evt);
 });
 
-*/
