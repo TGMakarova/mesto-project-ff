@@ -1,4 +1,9 @@
-import {popupTypeImage, popupImage, popupCaption} from "./constants.js"
+import { popupTypeImage, popupImage, popupCaption } from "./constants.js"
+
+
+
+
+
 
 //Создание функции выхода по Escape
 function closeEscape(evt) {

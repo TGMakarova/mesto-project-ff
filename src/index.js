@@ -1,27 +1,15 @@
 import "./pages/index.css";
-//import { initialCards } from "./scripts/cards.js";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
 import { closeModal, openFullScreen, openModal } from "./components/modal.js";
 import { validationConfig, enableValidation, clearValidation} from "./components/validation.js";
-//import {formSelector, inputSelector, inputErrorClass} from "./components/validation.js";
-import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose, profileImage, profileAvatarButton} from "./components/constants.js";
+import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose, profileImage} from "./components/constants.js";
 import { popupTypeNewCard, popupTypeNewCardClose, popupTypeImageClose}from "./components/constants.js";
 import {profileInfo, profileTitle, profileDescription} from "./components/constants.js";
 import { popupTypeImage, popupImage, popupCaption } from "./components/constants.js";
-import { popupTypeAvatar, popupTypeAvatarClose, popupTypeAvatarInput } from "./components/constants.js";
-import { iAmUser, receiveCards, myDatas, addCardServer} from "./components/api.js";
-//import { initialCards } from "./scripts/cards.js";
+import { popupTypeAvatar, popupTypeAvatarClose, popupTypeAvatarInput} from "./components/constants.js";
+import { iAmUser, receiveCards, myDatas, addCardServer, updateUserAvatar} from "./components/api.js";
 
-const newCardObject = {name:'Астана', link: 'https://i.postimg.cc/wv55FG9C/IMG-6284.jpg' };
-
-// Первоначальное заполнение карточек из массива
-/*
-initialCards.forEach((item) =>
-  placesList.append(
-    addCard(item.name, item.link, deleteCard, openFullScreen, likeCard)
-  )
-);
-*/
+const newCardObject = { name: 'Астана', link: 'https://i.postimg.cc/wv55FG9C/IMG-6284.jpg' };
 
 
 popupTypeEditClose.addEventListener("click", () => {
@@ -32,7 +20,7 @@ profileAddButton.addEventListener("click", () => {
   openModal(popupTypeNewCard);
 });
 
-profileAvatarButton.addEventListener("click", () => {
+profileImage.addEventListener("click", () => {
   openModal(popupTypeAvatar);
 })
 
@@ -96,88 +84,37 @@ function formSubmit(evt) {
   placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
   formCard.reset(); //Очищаем поля формы
   closeModal(popupTypeNewCard);
-  
 }
-
-
 
 formCard.addEventListener("submit", formSubmit);
 
+
 // Находим поля формы аватара в DOM
-const formAvatar = document.querySelector('[name="new-avatar"]'); // Воспользуйтесь методом querySelector()
+const formAvatar = document.querySelector('[name="new-avatar"]'); 
+const linkAvatarInput = formAvatar.link;
 
-  const linkAvatarInput = formAvatar.querySelector('[name="link"]');// Воспользуйтесь инструментом .querySelector()
-  console.log(linkAvatarInput);
-  
-function avatarLinkSubmit(evt) {
-  
+//Создаем функцию редактирования аватара
+ function avatarLinkSubmit (evt)  {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  
-  closeModal(popupTypeAvatar);
+  const linkAvatar = linkAvatarInput.value;
+  console.log(linkAvatar);
+  updateUserAvatar(linkAvatar)
+  .then
+  document.querySelector('.profile__image').backgroundImage.src = linkAvatar;
+  closeModal(popupTypeAvatar); 
 }
-
-formAvatar.addEventListener("submit", avatarLinkSubmit);
-
 
 // Вызовем функцию
 enableValidation(validationConfig); 
 
-
-//iAmUser();
-
-//receiveCards();
-/*
-const promises = ([iAmUser(), receiveCards()])
-  Promise.all (promises)
-    .then(([user, cards]) => {
-        const resultJSON = JSON.stringify(user);
-        console.log(typeof resultJSON);
-        console.log(resultJSON);
-        const aim = JSON.parse(resultJSON);
-        console.log(typeof aim);
-        console.log(aim);
-        profileTitle.textContent = aim.name;
-        profileDescription.textContent = aim.about;
-        console.log(aim.name);
-        console.log(profileTitle.textContent);
-        console.log(profileDescription.textContent);
-        profileImage.link = aim.avatar;
-        console.log(aim.avatar);
-        const myID = aim._id;
-        console.log(aim._id);
-        console.log(myID);
-        
-        const cardsJSON = JSON.stringify(cards);
-        console.log(typeof cardsJSON);
-        console.log(cardsJSON);
-        const enterCards = JSON.parse(cardsJSON);
-        console.log(typeof enterCards);
-      console.log(enterCards);
-      
-        let i;
-      for (i = 0; i < enterCards.length; i++) {
-        const cardTitle = enterCards[i].name;
-        const cardImage = enterCards[i].link;
-        const ownerID = enterCards[i].owner._id;
-        const likeNumber = enterCards[i].likes.length;
-        const cardID = enterCards[i]._id;
-        console.log(cardID);
-        console.log(likeNumber);
-        console.log(ownerID);
-            placesList.append(
-                addCard(cardTitle, cardImage, deleteCard, openFullScreen, likeCard, myID, ownerID, likeNumber, cardID));
-      }
-  
-      
-    });
-     */   
     const promises = ([iAmUser(), receiveCards()])
     Promise.all (promises)
       .then(([user, cards]) => {
-          
+         profileImage.src = `url(${user.avatar})`;
           profileTitle.textContent = user.name;
           profileDescription.textContent = user.about;
-          
+        console.log(user);
+        console.log(profileImage.src);
           console.log(profileTitle.textContent);
           console.log(profileDescription.textContent);
         cards.forEach((card) => {
@@ -191,13 +128,13 @@ const promises = ([iAmUser(), receiveCards()])
         console.log(cards);
       });
   
-  
-
-    
 
 myDatas();
 
 //addCardServer(newCardObject);
 
-
+//Вызов функции редактирования аватара
+formAvatar.addEventListener("submit", () => {
+  avatarLinkSubmit(evt);
+});
 

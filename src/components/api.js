@@ -1,6 +1,3 @@
-import {profileInfo, profileTitle, profileDescription, profileImage, placesList} from "./constants.js";
-import { addCard, deleteCard, likeCard } from "./cards.js";
-import { closeModal, openFullScreen, openModal } from "./modal.js";
 
 export const config = {
      baseUrl:'https://nomoreparties.co/v1/wff-cohort-7', 
@@ -10,7 +7,6 @@ export const config = {
         }
 }
  
-
 const checkError = (res) => {
     if (res.ok) {
         return res.json();
@@ -33,21 +29,17 @@ export const receiveCards = () => {
         .then(res => checkError(res));
 };
 
-
-
-
-
 export const myDatas = () => {
     fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers,
         method: 'PATCH',
         body: JSON.stringify({
             name: 'Tatiana M',
-            about: 'Student and Student'
+            about: 'Student and Student',
+
         })
     })  
 }
-
 
 export const addCardServer = (newCardObject) => {
     fetch(`${config.baseUrl}/cards`, {
@@ -56,10 +48,26 @@ export const addCardServer = (newCardObject) => {
         body: JSON.stringify({
             name: newCardObject.name,
             link: newCardObject.link
-    }) 
-    
+    })   
 })
 }
 
+//Запрос на сервер на обновление Аватара
 
-  
+export const updateUserAvatar = (linkAvatar) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+      headers: config.headers,
+      body: JSON.stringify({
+         avatar:linkAvatar 
+      })
+  })
+      
+    .then((res) => {
+      if (res.ok) {
+          return res.json();     
+      }
+        return Promise.reject(`ОЫшибка: ${res.status}`);
+    })  
+}
+

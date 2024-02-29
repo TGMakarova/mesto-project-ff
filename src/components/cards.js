@@ -37,20 +37,9 @@ export const likeCardServer = (cardID) => {
 export function deleteCard(card, cardID) {
   console.log(cardID);
   card.remove();
-  //const listItem = event.target.closest(".places__item");
-  //listItem.remove();
   deleteCardServer(cardID);
   
 }
-
-/*Функция like
-export function likeCard(card,  cardID) {
-  //event.target.classList.toggle("card__like-button_is-active");
-card.classList.toggle("card__like-button_is-active");
-   
-  likeCardServer(cardID);
-}
-*/
 
 export function likeCard(buttonLike, cardID) {
   //event.target.classList.toggle("card__like-button_is-active");
@@ -91,15 +80,11 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
     deleteButton.remove()
   };
 
-  
-  
   cardLikeButton.addEventListener("click", () => {
     likeCard( cardLikeButton, cardID)
   });
 
   return cardElement;
-
-
 }
 
 
