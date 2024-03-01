@@ -100,8 +100,8 @@ function avatarLinkSubmit(evt) {
   console.log(linkAvatar);
   updateUserAvatar(linkAvatar)
     .then((data) => {
-      //document.querySelector('.profile-image').style.backgroundImage = url( linkAvatar );
-      profileImage.src = `url(${linkAvatar})`;
+      profileImage.style.backgroundImage = `url(${linkAvatar})`;
+      //profileImage.src = `url(${linkAvatar})`;
       
       closeModal(popupTypeAvatar);
     }
@@ -114,11 +114,11 @@ enableValidation(validationConfig);
     const promises = ([iAmUser(), receiveCards()])
     Promise.all (promises)
       .then(([user, cards]) => {
-        // profileImage.src = `url(${user.avatar})`;
+        profileImage.src = `url(${user.avatar})`;
           profileTitle.textContent = user.name;
           profileDescription.textContent = user.about;
         console.log(user);
-      //  console.log(profileImage.src);
+      console.log(profileImage.src);
           console.log(profileTitle.textContent);
           console.log(profileDescription.textContent);
         cards.forEach((card) => {
