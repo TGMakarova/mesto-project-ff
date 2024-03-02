@@ -1,18 +1,11 @@
-import { popupTypeImage, popupImage, popupCaption } from "./constants.js"
-
-
-
-
+import { popupTypeImage, popupImage, popupCaption, popupOpened} from "./constants.js"
 
 
 //Создание функции выхода по Escape
 function closeEscape(evt) {
   if (evt.code === "Escape") {
-    let popupOpened;
-    if (document.querySelector(".popup_is-opened")) {
-      popupOpened = document.querySelector(".popup_is-opened");
-    }
-
+    
+     let popupOpened = document.querySelector(".popup_is-opened");
     if (popupOpened) {
       closeModal(popupOpened);
       document.removeEventListener("click", closeEscape);

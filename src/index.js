@@ -37,31 +37,29 @@ popupTypeAvatarClose.addEventListener("click", () => {
 })
 
 //Первоначальное заполнение данными профиля: имя и знятие
-const form = document.querySelector('[name="edit-profile"]'); //Обращаемся к форме редактирования профиля
-const name = form.elements.name; //Обращаемся к элементу формы имя
-const description = form.elements.description; //Обращаемся к элементу формы занятие
+const formProfile = document.querySelector('[name="edit-profile"]'); //Обращаемся к форме редактирования профиля
+const nameProfile = formProfile.elements.name; //Обращаемся к элементу формы имя
+const descriptionProfile = formProfile.elements.description; //Обращаемся к элементу формы занятие
+
+
 
 profileEditButton.addEventListener("click", () => {
-  clearValidation(formElement, validationConfig);
+  clearValidation(formProfile, validationConfig);
   openModal(popupTypeEdit);
-  name.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
-  description.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
+  nameProfile.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
+  descriptionProfile.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
 
-// Находим поля формы в DOM
-const formElement = form;
-const nameInput = formElement.name; // Воспользуйтесь инструментом .querySelector()
-const jobInput = formElement.description; // Воспользуйтесь инструментом .querySelector()
 
 function handleFormSubmit(evt) {
- 
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  profileTitle.textContent = nameInput.value; //Присваиваем значение элементу формы имя
-  profileDescription.textContent = jobInput.value; //Присваиваем значение элементу формы занятие
-  closeModal(popupTypeEdit);
+
+    closeModal(popupTypeEdit);
+  
 }
 
-formElement.addEventListener("submit", handleFormSubmit);
+
+formProfile.addEventListener("submit", handleFormSubmit);
 
 const formCard = document.querySelector('[name="new-place"]'); // Воспользуйтесь методом querySelector()
 
@@ -101,11 +99,8 @@ function avatarLinkSubmit(evt) {
   updateUserAvatar(linkAvatar)
     .then((data) => {
       profileImage.style.backgroundImage = `url(${linkAvatar})`;
-      //profileImage.src = `url(${linkAvatar})`;
-      
       closeModal(popupTypeAvatar);
-    }
-)
+    })
 }
 
 // Вызовем функцию

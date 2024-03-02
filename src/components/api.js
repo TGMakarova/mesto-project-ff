@@ -41,6 +41,20 @@ export const myDatas = () => {
     })  
 }
 
+/*
+export const myDatas = () => {
+    fetch(`${config.baseUrl}/users/me`, {
+        headers: config.headers,
+        method: 'PATCH',
+        body: JSON.stringify({
+            name: nameMy,
+            about: jobMy,
+
+        })
+    })  
+}
+*/
+
 export const addCardServer = (newCardObject) => {
     fetch(`${config.baseUrl}/cards`, {
         headers: config.headers,

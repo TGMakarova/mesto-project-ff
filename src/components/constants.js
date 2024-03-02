@@ -19,6 +19,7 @@ export let profileImage = document.querySelector(".profile__image"); //Нахо�
 
 //DOM -элементы попапа редактирования профиля
 export const popup = document.querySelector(".popup");
+//export const popupOpened = document.querySelector(".popup_is-opened"); //Открытый попап
 export const popupTypeEdit = document.querySelector(".popup_type_edit"); //Редактирование попапа
 export const popupTypeEditClose = popupTypeEdit.querySelector(".popup__close"); //Закрытие попапа редактирования профиля
 
