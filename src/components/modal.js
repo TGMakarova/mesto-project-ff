@@ -1,4 +1,4 @@
-import { popupTypeImage, popupImage, popupCaption, popupOpened} from "./constants.js"
+import { popupTypeImage, popupImage, popupCaption} from "./constants.js"
 
 
 //Создание функции выхода по Escape
@@ -38,10 +38,5 @@ export function closeModal(popup) {
   document.removeEventListener("keydown", closeEscape);
   document.removeEventListener("click", closeOverlay);
 }
-//Создание функции полного экрана
-export function openFullScreen(name, link) {
-  popupImage.src = link;
-  popupImage.alt = name;
-  popupCaption.textContent = name;
-  openModal(popupTypeImage);
-}
+
+

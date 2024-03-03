@@ -1,43 +1,12 @@
-import { config } from "./api.js"
-
-
+import { deleteCardServer, likeCardServer} from "./api";
 const cardTemplate = document.querySelector("#card-template").content;
-
-//Запрос на сервер на удаление карточки
-
-export const deleteCardServer = (cardID) => {
-  return fetch(`${config.baseUrl}/cards/${cardID}`, {
-    headers: config.headers,
-    method: 'DELETE'
-})
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
-}
-// Запрос на сервер  на установку лайка
-
-export const likeCardServer = (cardID) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
-    headers: config.headers,
-    method: 'PUT'
-})
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
-}
 
 // @todo: Функция удаления карточки
 
 export function deleteCard(card, cardID) {
   console.log(cardID);
   card.remove();
-  deleteCardServer(cardID);
+  deleteCardServer(cardID)
   
 }
 
@@ -64,14 +33,14 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
   imageCard.src = link;
   imageCard.alt = name;
   cardCounter.textContent = likeNumber; 
-  //cardName.value = cardID;
+  
 
   imageCard.addEventListener("click", function () {
     openFullScreen(name, link);
   });
 
   if (myID === ownerID) {
-    //deleteButton.addEventListener("click", deleteCard);
+    
     deleteButton.addEventListener("click", () => {
       deleteCard(cardElement, cardID)
     })

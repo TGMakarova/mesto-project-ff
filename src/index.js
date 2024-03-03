@@ -1,14 +1,14 @@
 import "./pages/index.css";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
-import { closeModal, openFullScreen, openModal } from "./components/modal.js";
-import { validationConfig, enableValidation, clearValidation} from "./components/validation.js";
+import { closeModal,openModal } from "./components/modal.js";
+import { enableValidation, clearValidation} from "./components/validation.js";
 import { placesList, profileEditButton, profileAddButton, popupTypeEdit, popupTypeEditClose, profileImage} from "./components/constants.js";
 import { popupTypeNewCard, popupTypeNewCardClose, popupTypeImageClose}from "./components/constants.js";
 import {profileInfo, profileTitle, profileDescription} from "./components/constants.js";
 import { popupTypeImage, popupImage, popupCaption } from "./components/constants.js";
 import { popupTypeAvatar, popupTypeAvatarClose, popupTypeAvatarInput} from "./components/constants.js";
-import { iAmUser, receiveCards, myDatas, addCardServer, updateUserAvatar} from "./components/api.js";
-
+import { iAmUser, receiveCards, myDatas, addCardServer, updateUserAvatar, deleteCardServer, likeCardServer} from "./components/api.js";
+import { validationConfig} from "./components/constants.js";
 
 popupTypeEditClose.addEventListener("click", () => {
   closeModal(popupTypeEdit);
@@ -29,6 +29,14 @@ popupTypeNewCardClose.addEventListener("click", () => {
 popupTypeImageClose.addEventListener("click", () => {
   closeModal(popupTypeImage);
 });
+
+//Создание функции полного экрана
+  function openFullScreen(name, link) {
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupCaption.textContent = name;
+  openModal(popupTypeImage);
+}
 
 popupTypeAvatarClose.addEventListener("click", () => {
   closeModal(popupTypeAvatar);

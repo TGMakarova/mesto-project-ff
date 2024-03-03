@@ -53,8 +53,25 @@ export const addCardServer = (newObjectCard) => {
    })
    }
 
+//Запрос на сервер на удаление карточки
 
-
+export const deleteCardServer = (cardID) => {
+    return fetch(`${config.baseUrl}/cards/${cardID}`, {
+      headers: config.headers,
+      method: 'DELETE'
+  })
+}
+  
+  // Запрос на сервер  на установку лайка
+  
+  export const likeCardServer = (cardID) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
+      headers: config.headers,
+      method: 'PUT'
+  })
+      
+  }
+  
 //Запрос на сервер на обновление Аватара
 
 export const updateUserAvatar = (linkAvatar) => {
