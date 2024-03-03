@@ -29,21 +29,9 @@ export const receiveCards = () => {
         .then(res => checkError(res));
 };
 
-export const myDatas = () => {
-    fetch(`${config.baseUrl}/users/me`, {
-        headers: config.headers,
-        method: 'PATCH',
-        body: JSON.stringify({
-            name: 'Tatiana M',
-            about: 'Student and Student',
 
-        })
-    })  
-}
-
-/*
-export const myDatas = () => {
-    fetch(`${config.baseUrl}/users/me`, {
+export const myDatas = (nameMy, jobMy) => {
+  return  fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers,
         method: 'PATCH',
         body: JSON.stringify({
@@ -53,18 +41,19 @@ export const myDatas = () => {
         })
     })  
 }
-*/
 
-export const addCardServer = (newCardObject) => {
-    fetch(`${config.baseUrl}/cards`, {
-        headers: config.headers,
-        method: 'POST',
-        body: JSON.stringify({
-            name: newCardObject.name,
-            link: newCardObject.link
-    })   
-})
-}
+
+
+export const addCardServer = (newCardName, newCardLine) => {
+    return   fetch(`${config.baseUrl}/cards`, {
+           headers: config.headers,
+           method: 'POST',
+           body: JSON.stringify({
+               name: newCardName,
+               link: newCardLine
+       })   
+   })
+   }
 
 //Запрос на сервер на обновление Аватара
 
@@ -76,12 +65,5 @@ export const updateUserAvatar = (linkAvatar) => {
          avatar:linkAvatar 
       })
   })
-      
-    .then((res) => {
-      if (res.ok) {
-          return res.json();     
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    })  
-}
+    }
 

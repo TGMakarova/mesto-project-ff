@@ -13,8 +13,8 @@ export const profileEditButton = document.querySelector(".profile__edit-button")
 export const profileAddButton = document.querySelector(".profile__add-button"); //Кнопка добавления карточки
 //export const profileAvatarButton = document.querySelector(".profile__avatar-button"); //Кнопка изменения аватара
 export const profileInfo = document.querySelector(".profile__info"); // Находим форму в DOM
-export const profileTitle = profileInfo.querySelector(".profile__title"); // Находим поле имени формы в DOM
-export const profileDescription = profileInfo.querySelector(".profile__description"); //Находим поле занятия в DOM
+export let profileTitle = profileInfo.querySelector(".profile__title"); // Находим поле имени формы в DOM
+export let profileDescription = profileInfo.querySelector(".profile__description"); //Находим поле занятия в DOM
 export let profileImage = document.querySelector(".profile__image"); //Находим поле изображение в DOM
 
 //DOM -элементы попапа редактирования профиля
