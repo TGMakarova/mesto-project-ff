@@ -51,13 +51,15 @@ profileEditButton.addEventListener("click", () => {
 
 function handleFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  const nameMy = nameTypeEdit.value;
-  const jobMy = descriptionTypeEdit.value;
-
-  myDatas(nameMy, jobMy)
+  
+  const myselfObject = {
+    nameMy: nameTypeEdit.value,
+    jobMy: descriptionTypeEdit.value
+}
+  myDatas(myselfObject)
   .then((data) => {
-  profileTitle.textContent = nameMy;
-  profileDescription.textContent = jobMy;
+  profileTitle.textContent = myselfObject.nameMy;
+  profileDescription.textContent = myselfObject.jobMy;
     closeModal(popupTypeEdit);  
 })
 }
@@ -69,9 +71,12 @@ const linkCardInput = formCard.link; // Воспользуйтесь инстр�
 
 function formSubmit(evt) {
   evt.preventDefault();
-  const newCardName = nameCardInput.value;
-  const newCardLine = linkCardInput.value;
-  addCardServer(newCardName, newCardLine)
+  const newObjectCard = {
+    nameCard: nameCardInput.value,
+    linkCard: linkCardInput.value
+}
+  
+  addCardServer(newObjectCard)
     .then((data) => {
 
       const newCard = addCard(

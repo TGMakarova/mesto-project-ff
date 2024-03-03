@@ -30,30 +30,30 @@ export const receiveCards = () => {
 };
 
 
-export const myDatas = (nameMy, jobMy) => {
-  return  fetch(`${config.baseUrl}/users/me`, {
-        headers: config.headers,
-        method: 'PATCH',
-        body: JSON.stringify({
-            name: nameMy,
-            about: jobMy,
+export const myDatas = (myselfObject) => {
+    return  fetch(`${config.baseUrl}/users/me`, {
+          headers: config.headers,
+          method: 'PATCH',
+          body: JSON.stringify({
+              name: myselfObject.nameMy,
+              about: myselfObject.jobMy,
+  
+          })
+      })  
+  }
 
-        })
-    })  
-}
-
-
-
-export const addCardServer = (newCardName, newCardLine) => {
+export const addCardServer = (newObjectCard) => {
     return   fetch(`${config.baseUrl}/cards`, {
            headers: config.headers,
            method: 'POST',
            body: JSON.stringify({
-               name: newCardName,
-               link: newCardLine
+               name: newObjectCard.nameCard ,
+               link: newObjectCard.linkCard
        })   
    })
    }
+
+
 
 //Запрос на сервер на обновление Аватара
 
