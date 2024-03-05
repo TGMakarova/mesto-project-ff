@@ -63,7 +63,7 @@ export const deleteCardServer = (cardID) => {
 }
   
   // Запрос на сервер  на установку лайка
-  
+ /*
   export const likeCardServer = (cardID) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
       headers: config.headers,
@@ -72,6 +72,19 @@ export const deleteCardServer = (cardID) => {
       
   }
   
+*/
+//Запрос на сервер на установку - удаление лайков
+
+
+export const toggleLike = (cardID, isLiked) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
+        method: isLiked ? 'DELETE' : 'PUT',
+        headers: config.headers,
+  })
+      
+  }
+
+
 //Запрос на сервер на обновление Аватара
 
 export const updateUserAvatar = (linkAvatar) => {

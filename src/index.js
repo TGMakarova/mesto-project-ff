@@ -92,7 +92,9 @@ function formSubmit(evt) {
         linkCardInput.value,
         deleteCard,
         openFullScreen,
-        likeCard,
+        likeCard
+        
+
       )
   
       //Создание новой карточки
@@ -135,10 +137,11 @@ enableValidation(validationConfig);
           console.log(profileDescription.textContent);
         cards.forEach((card) => {
           placesList.append(
-            addCard(card.name, card.link, deleteCard, openFullScreen, likeCard, user._id, card.owner._id, card.likes.length, card._id));
+            addCard(card.name, card.link, deleteCard, openFullScreen, likeCard, user._id, card.owner._id, card.likes, card._id));
           console.log(user._id);
           console.log(card.owner._id);
           console.log(card._id);
+          console.log(card.likes);
         
           })
         console.log(cards);
