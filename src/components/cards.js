@@ -1,4 +1,4 @@
-import { deleteCardServer, likeCardServer, toggleLike} from "./api";
+import { deleteCardServer, toggleLike} from "./api";
 const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: Функция удаления карточки
@@ -7,29 +7,21 @@ export function deleteCard(card, cardID) {
   console.log(cardID);
   card.remove();
   deleteCardServer(cardID)
-  
 }
 
-//
 export function likeCard(evt) {
 evt.target.classList.toggle("card__like-button_is-active");
-//cardLikeButton.classList.toggle("card__like-button_is-active");
-  //console.log(cardID);
 }
 
 // @todo: Функция создания карточки
 
 export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, ownerID, likeNumber, cardID) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-
   const titleCard = cardElement.querySelector(".card__title");
   const imageCard = cardElement.querySelector(".card__image");
   const deleteButton = cardElement.querySelector(".card__delete-button");
   const cardLikeButton = cardElement.querySelector(".card__like-button"); 
   const cardCounter = cardElement.querySelector(".card__counter");
-  
-  
-  
   const renderLikes = () => {
     cardCounter.textContent = likeNumber.length; 
     if (likeNumber.some(likeNumber => likeNumber._id === myID)) {
@@ -38,7 +30,6 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
     else {
       cardLikeButton.classList.remove("card__like-button_is-active")
     }
-    
   };
 
   renderLikes();
@@ -46,10 +37,8 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
   titleCard.textContent = name;
   imageCard.src = link;
   imageCard.alt = name;
-  
   imageCard.addEventListener("click", function () {
     openFullScreen(name, link);
-
   });
 
   if (myID === ownerID) { 
@@ -61,19 +50,13 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
     deleteButton.remove()
   };
 
-  
   cardLikeButton.addEventListener('click', () => {
-    
-  toggleLike(cardID, cardLikeButton.classList.contains("card__like-button_is-active"))
-    
+    toggleLike(cardID, cardLikeButton.classList.contains("card__like-button_is-active"))
     .then((data) => {
       renderLikes(data);
-      cardLikeButton.classList.toggle("card__like-button_is-active")
-      
+      cardLikeButton.classList.toggle("card__like-button_is-active")  
     });
-
-})
-  
+}) 
   return cardElement;
 }
 
