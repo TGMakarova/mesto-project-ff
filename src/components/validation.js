@@ -52,6 +52,7 @@ const setEventListeners = (validationConfig, formElement) => {
   const buttonElement = formElement.querySelector(
     validationConfig.submitButtonSelector
   );
+
   toggleButton(validationConfig, inputList, buttonElement);
   // Обойдём все элементы полученной коллекции
   inputList.forEach((inputElement) => {
