@@ -94,6 +94,7 @@ const toggleButton = (validationConfig, inputList, buttonElement) => {
   }
 };
 
+
 // Функция, которая проверяет валидность поля
 
 export const enableValidation = (validationConfig) => {

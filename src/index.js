@@ -1,8 +1,10 @@
 import "./pages/index.css";
 import { addCard, deleteCard, likeCard } from "./components/cards.js";
-import { closeModal, openModal } from "./components/modal.js";
+import { closeModal, openModal, closeOverlay } from "./components/modal.js";
+
 import { enableValidation, clearValidation } from "./components/validation.js";
 import {
+  popup,
   placesList,
   profileEditButton,
   profileAddButton,
@@ -14,6 +16,7 @@ import {
   popupTypeNewCard,
   popupTypeNewCardClose,
   popupTypeImageClose,
+  popupNewCardSpan,
 } from "./components/constants.js";
 import {
   profileInfo,
@@ -41,16 +44,31 @@ import {
 import { validationConfig } from "./components/constants.js";
 let myData = 0;
 
+popupTypeEdit.addEventListener("click", closeOverlay);
+
+popupTypeNewCard.addEventListener("click", closeOverlay);
+
+popupTypeImage.addEventListener("click", closeOverlay);
+
+popupTypeAvatar.addEventListener("click", closeOverlay);
+
 popupTypeEditClose.addEventListener("click", () => {
   closeModal(popupTypeEdit);
 });
 
 profileAddButton.addEventListener("click", () => {
-  openModal(popupTypeNewCard);
+  setTimeout(() => {
+    openModal(popupTypeNewCard), 100;
+  });
+  formCard.reset();
 });
 
 profileImage.addEventListener("click", () => {
-  openModal(popupTypeAvatar);
+  setTimeout(() => {
+    openModal(popupTypeAvatar), 100;
+  });
+
+  formAvatar.reset();
 });
 
 popupTypeNewCardClose.addEventListener("click", () => {
@@ -66,7 +84,9 @@ function openFullScreen(name, link) {
   popupImage.src = link;
   popupImage.alt = name;
   popupCaption.textContent = name;
-  openModal(popupTypeImage);
+  setTimeout(() => {
+    openModal(popupTypeImage), 100;
+  });
 }
 
 popupTypeAvatarClose.addEventListener("click", () => {
@@ -80,7 +100,10 @@ const descriptionTypeEdit = formTypeEdit.elements.description; //Обращае�
 
 profileEditButton.addEventListener("click", () => {
   clearValidation(formTypeEdit, validationConfig);
-  openModal(popupTypeEdit);
+  setTimeout(() => {
+    openModal(popupTypeEdit), 100;
+  });
+
   nameTypeEdit.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
   descriptionTypeEdit.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
@@ -100,8 +123,9 @@ function handleFormSubmit(evt) {
 
 // Находим форму и поля формы в DOM
 const formCard = document.querySelector('[name="new-place"]'); // Воспользуйтесь методом querySelector()
-const nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
-const linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
+let nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
+let linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
+const submitButton = formCard.querySelector(".popup__close");
 
 function formSubmit(evt) {
   evt.preventDefault();
@@ -130,13 +154,15 @@ function formSubmit(evt) {
     //Создание новой карточки
     placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
     formCard.reset(); //Очищаем поля формы
+    // submitButton.classList.add (validationConfig.inactiveButtonClass);
+
     closeModal(popupTypeNewCard);
   });
 }
 
 // Находим поля формы аватара в DOM
 const formAvatar = document.querySelector('[name="new-avatar"]');
-const linkAvatarInput = formAvatar.link;
+let linkAvatarInput = formAvatar.link;
 
 //Создаем функцию редактирования аватара
 function avatarLinkSubmit(evt) {
@@ -190,8 +216,10 @@ formTypeEdit.addEventListener("submit", (evt) => {
 
 formCard.addEventListener("submit", (evt) => {
   formSubmit(evt);
+  formCard.querySelector('[type="submit"]').disabled = true;
 });
 
 formAvatar.addEventListener("submit", (evt) => {
   avatarLinkSubmit(evt);
+  formAvatar.querySelector('[type="submit"]').disabled = true;
 });

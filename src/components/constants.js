@@ -46,3 +46,5 @@ export const validationConfig = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
+
+export const popup = document.querySelectorAll(".popup .popup_is-animated");

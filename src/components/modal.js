@@ -2,6 +2,7 @@
 function closeEscape(evt) {
   if (evt.code === "Escape") {
     let popupOpened = document.querySelector(".popup_is-opened");
+
     if (popupOpened) {
       closeModal(popupOpened);
       document.removeEventListener("click", closeEscape);
@@ -10,7 +11,7 @@ function closeEscape(evt) {
 }
 
 //Создание функции выхода по Overlay
-function closeOverlay(evt) {
+export function closeOverlay(evt) {
   if (evt.target.classList.contains("popup_is-opened")) {
     closeModal(evt.target);
   }
@@ -19,13 +20,8 @@ function closeOverlay(evt) {
 //Создание функции открытия модального окна
 
 export function openModal(popup) {
-  popup.classList.add("popup_is-animated");
-  setTimeout(() => {
-    popup.classList.add("popup_is-opened");
-  }, 1);
-
+  popup.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeEscape);
-  document.addEventListener("click", closeOverlay);
 }
 
 //Создание функции закрытия модального окна

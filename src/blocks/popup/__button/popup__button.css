@@ -15,8 +15,9 @@
 }
 
 .popup__button:disabled {
-  background-color: rgb(247, 235, 235);
-  color:#000;
+  background-color: rgb(255, 251, 251);
+  color:#c5c1c1;
+  border: 1px, solid, #c5c1c1;
 }
 
 .popup__button:hover {
