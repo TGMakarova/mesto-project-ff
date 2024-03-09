@@ -34,9 +34,9 @@ import {
   popupTypeAvatarInput,
 } from "./components/constants.js";
 import {
-  iAmUser,
+  amUser,
   receiveCards,
-  myDatas,
+  sendMyDatas,
   addCardServer,
   updateUserAvatar,
   deleteCardServer,
@@ -59,22 +59,13 @@ popupTypeEditClose.addEventListener("click", () => {
 
 profileAddButton.addEventListener("click", () => {
   clearValidation(formCard, validationConfig);
-  setTimeout(() => {
-    openModal(popupTypeNewCard), 100;
-  });
-  
+   openModal(popupTypeNewCard);
   formCard.reset();
-  
-  
 });
 
 profileImage.addEventListener("click", () => {
   clearValidation(formAvatar, validationConfig);
-  setTimeout(() => {
-    openModal(popupTypeAvatar), 100;
-
-  });
-
+  openModal(popupTypeAvatar);
   formAvatar.reset();
   
 });
@@ -92,9 +83,8 @@ function openFullScreen(name, link) {
   popupImage.src = link;
   popupImage.alt = name;
   popupCaption.textContent = name;
-  setTimeout(() => {
-    openModal(popupTypeImage), 100;
-  });
+    openModal(popupTypeImage);
+  
 }
 
 popupTypeAvatarClose.addEventListener("click", () => {
@@ -108,10 +98,7 @@ const descriptionTypeEdit = formTypeEdit.elements.description; //Обращае�
 
 profileEditButton.addEventListener("click", () => {
   clearValidation(formTypeEdit, validationConfig);
-  setTimeout(() => {
-    openModal(popupTypeEdit), 100;
-  });
-
+    openModal(popupTypeEdit);
   nameTypeEdit.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
   descriptionTypeEdit.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
@@ -122,7 +109,9 @@ function handleFormSubmit(evt) {
     nameMy: nameTypeEdit.value,
     jobMy: descriptionTypeEdit.value,
   };
-  myDatas(myselfObject).then((data) => {
+
+  sendMyDatas(myselfObject).then((data) => {
+    
     profileTitle.textContent = myselfObject.nameMy;
     profileDescription.textContent = myselfObject.jobMy;
     closeModal(popupTypeEdit);
@@ -131,11 +120,11 @@ function handleFormSubmit(evt) {
 
 // Находим форму и поля формы в DOM
 const formCard = document.querySelector('[name="new-place"]'); // Воспользуйтесь методом querySelector()
-let nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
-let linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
-const submitButton = formCard.querySelector(".popup__close");
+const nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
+const linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
 
-function formSubmit(evt) {
+
+function formSubmitNewCard(evt) {
   evt.preventDefault();
   const newObjectCard = {
     nameCard: nameCardInput.value,
@@ -167,10 +156,10 @@ function formSubmit(evt) {
 
 // Находим поля формы аватара в DOM
 const formAvatar = document.querySelector('[name="new-avatar"]');
-let linkAvatarInput = formAvatar.link;
+const linkAvatarInput = formAvatar.link;
 
 //Создаем функцию редактирования аватара
-function avatarLinkSubmit(evt) {
+function submitAvatarLink(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const linkAvatar = linkAvatarInput.value;
   console.log(linkAvatar);
@@ -183,7 +172,7 @@ function avatarLinkSubmit(evt) {
 // Вызовем функцию
 enableValidation(validationConfig);
 
-const promises = [iAmUser(), receiveCards()];
+const promises = [amUser(), receiveCards()];
 Promise.all(promises).then(([user, cards]) => {
   profileImage.style.backgroundImage = `url(${user.avatar})`;
   profileTitle.textContent = user.name;
@@ -215,14 +204,15 @@ Promise.all(promises).then(([user, cards]) => {
 
 formTypeEdit.addEventListener("submit", (evt) => {
   handleFormSubmit(evt);
+  formTypeEdit.querySelector('[type="submit"]').disabled = true;
 });
 
 formCard.addEventListener("submit", (evt) => {
-  formSubmit(evt);
+  formSubmitNewCard(evt);
   formCard.querySelector('[type="submit"]').disabled = true;
 });
 
 formAvatar.addEventListener("submit", (evt) => {
-  avatarLinkSubmit(evt);
+  submitAvatarLink(evt);
   formAvatar.querySelector('[type="submit"]').disabled = true;
 });

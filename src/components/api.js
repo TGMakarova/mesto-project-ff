@@ -13,7 +13,7 @@ const checkError = (res) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 };
 
-export const iAmUser = () => {
+export const amUser = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
   }).then((res) => checkError(res));
@@ -28,7 +28,7 @@ export const receiveCards = () => {
 };
 
 //Запрос на обновление данных пользователя
-export const myDatas = (myselfObject) => {
+export const sendMyDatas = (myselfObject) => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers,
     method: "PATCH",

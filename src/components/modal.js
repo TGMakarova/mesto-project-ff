@@ -1,7 +1,7 @@
 //Создание функции выхода по Escape
 function closeEscape(evt) {
   if (evt.code === "Escape") {
-    let popupOpened = document.querySelector(".popup_is-opened");
+    const popupOpened = document.querySelector(".popup_is-opened");
 
     if (popupOpened) {
       closeModal(popupOpened);
@@ -28,5 +28,4 @@ export function openModal(popup) {
 export function closeModal(popup) {
   popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeEscape);
-  document.removeEventListener("click", closeOverlay);
 }

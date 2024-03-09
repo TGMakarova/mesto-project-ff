@@ -7,19 +7,25 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
-  
+  position: relative;
   background-image: url(./../../../images/avatar.jpg);
- 
 }
 
 .profile__image:hover {
   opacity: 0.6;
   cursor: pointer;
-  /*background-image: transparent url(../../../images/edit-icon.svg) center no-repeat;
-  width: 10px;
-  height: 10px;
-  /*z-index: 4;*/
-  
+}
+
+.profile__image::after {
+  content:"";
+  top:20px;
+  left:20px;
+  width:12px;
+  height:12px;
+  position: absolute;
+  background-image: url(./../../../images/edit-icon.svg) center no-repeat;
+  z-index: 2;
+  background-size: cover;
 }
 
 @media screen and (max-width: 740px) {

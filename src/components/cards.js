@@ -9,7 +9,6 @@ export function deleteCard(card, cardID) {
   })
 }
 
-
 export function likeCard(evt) {
 evt.target.classList.toggle("card__like-button_is-active");
 }
@@ -23,9 +22,11 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
   const deleteButton = cardElement.querySelector(".card__delete-button");
   const cardLikeButton = cardElement.querySelector(".card__like-button"); 
   const cardCounter = cardElement.querySelector(".card__counter");
+ 
+  cardCounter.textContent = likeNumber.length; 
+  
   const renderLikes = () => {
-    cardCounter.textContent = likeNumber.length; 
-
+    //
     if (likeNumber.some(likeNumber => likeNumber._id === myID)) {
       cardLikeButton.classList.add("card__like-button_is-active")
     }
@@ -47,7 +48,7 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
   if (myID === ownerID) { 
     deleteButton.addEventListener("click", function() {
       deleteCard(cardElement, cardID);
-      
+    
     })
   }
   else {
@@ -56,10 +57,15 @@ export function addCard(name, link, deleteCard, openFullScreen, likeCard, myID, 
 
   cardLikeButton.addEventListener('click', () => {
     toggleLike(cardID, cardLikeButton.classList.contains("card__like-button_is-active"))
-    .then((data) => {
-      renderLikes(data);
-      cardLikeButton.classList.toggle("card__like-button_is-active") 
-      
+      .then((data) => {
+        console.dir(data);
+        cardCounter.textContent = data.likes.length;
+        console.log(cardCounter.textContent);
+        //likeNumber = data.likes;
+        //renderLikes();
+
+        cardLikeButton.classList.toggle("card__like-button_is-active"); 
+        
     });
 }) 
   return cardElement;
