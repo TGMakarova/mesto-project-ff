@@ -4,7 +4,6 @@ import { closeModal, openModal, closeOverlay } from "./components/modal.js";
 
 import { enableValidation, clearValidation } from "./components/validation.js";
 import {
-  popup,
   placesList,
   profileEditButton,
   profileAddButton,
@@ -18,11 +17,7 @@ import {
   popupTypeImageClose,
   popupNewCardSpan,
 } from "./components/constants.js";
-import {
-  profileInfo,
-  profileTitle,
-  profileDescription,
-} from "./components/constants.js";
+import { profileTitle, profileDescription } from "./components/constants.js";
 import {
   popupTypeImage,
   popupImage,
@@ -31,7 +26,6 @@ import {
 import {
   popupTypeAvatar,
   popupTypeAvatarClose,
-  popupTypeAvatarInput,
 } from "./components/constants.js";
 import {
   amUser,
@@ -39,11 +33,8 @@ import {
   sendMyDatas,
   addCardServer,
   updateUserAvatar,
-  deleteCardServer,
 } from "./components/api.js";
 import { validationConfig } from "./components/constants.js";
-
-//let myData = 0;
 
 popupTypeEdit.addEventListener("click", closeOverlay);
 
@@ -59,7 +50,7 @@ popupTypeEditClose.addEventListener("click", () => {
 
 profileAddButton.addEventListener("click", () => {
   clearValidation(formCard, validationConfig);
-   openModal(popupTypeNewCard);
+  openModal(popupTypeNewCard);
   formCard.reset();
 });
 
@@ -67,7 +58,6 @@ profileImage.addEventListener("click", () => {
   clearValidation(formAvatar, validationConfig);
   openModal(popupTypeAvatar);
   formAvatar.reset();
-  
 });
 
 popupTypeNewCardClose.addEventListener("click", () => {
@@ -83,8 +73,7 @@ function openFullScreen(name, link) {
   popupImage.src = link;
   popupImage.alt = name;
   popupCaption.textContent = name;
-    openModal(popupTypeImage);
-  
+  openModal(popupTypeImage);
 }
 
 popupTypeAvatarClose.addEventListener("click", () => {
@@ -98,7 +87,7 @@ const descriptionTypeEdit = formTypeEdit.elements.description; //Обращае�
 
 profileEditButton.addEventListener("click", () => {
   clearValidation(formTypeEdit, validationConfig);
-    openModal(popupTypeEdit);
+  openModal(popupTypeEdit);
   nameTypeEdit.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
   descriptionTypeEdit.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
@@ -109,13 +98,16 @@ function handleFormSubmit(evt) {
     nameMy: nameTypeEdit.value,
     jobMy: descriptionTypeEdit.value,
   };
-
-  sendMyDatas(myselfObject).then((data) => {
-    
-    profileTitle.textContent = myselfObject.nameMy;
-    profileDescription.textContent = myselfObject.jobMy;
-    closeModal(popupTypeEdit);
-  });
+  popupTypeEditClose.textContent = "Сохраняется...";
+  sendMyDatas(myselfObject)
+    .then((data) => {
+      profileTitle.textContent = myselfObject.nameMy;
+      profileDescription.textContent = myselfObject.jobMy;
+      closeModal(popupTypeEdit);
+    })
+    .finally(() => {
+      popupTypeEditClose.textContent = "Сохранить";
+    });
 }
 
 // Находим форму и поля формы в DOM
@@ -123,17 +115,14 @@ const formCard = document.querySelector('[name="new-place"]'); // Восполь
 const nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
 const linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
 
-
 function formSubmitNewCard(evt) {
   evt.preventDefault();
   const newObjectCard = {
     nameCard: nameCardInput.value,
     linkCard: linkCardInput.value,
-
   };
-  
+
   addCardServer(newObjectCard).then((data) => {
-    console.dir(data);
     const newCard = addCard(
       data.name,
       data.link,
@@ -145,9 +134,7 @@ function formSubmitNewCard(evt) {
       data.likes,
       data._id
     );
-    console.log(data._id);
-    
-    //Создание новой карточки
+
     placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
     formCard.reset(); //Очищаем поля формы
     closeModal(popupTypeNewCard);
@@ -177,13 +164,6 @@ Promise.all(promises).then(([user, cards]) => {
   profileImage.style.backgroundImage = `url(${user.avatar})`;
   profileTitle.textContent = user.name;
   profileDescription.textContent = user.about;
-  //myData = user._id;
-  /*
-  console.log(user);
-  console.log(myData);
-  console.log(profileTitle.textContent);
-  console.log(profileDescription.textContent)
-  */
   cards.forEach((card) => {
     placesList.append(
       addCard(

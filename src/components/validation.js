@@ -94,13 +94,12 @@ const toggleButton = (validationConfig, inputList, buttonElement) => {
   }
 };
 
-
 // Функция, которая проверяет валидность поля
 
 export const enableValidation = (validationConfig) => {
   // Найдём все формы с указанным классом в DOM,
   // сделаем из них массив методом Array.from
-  
+
   const formList = Array.from(
     document.querySelectorAll(validationConfig.formSelector)
   );
@@ -108,7 +107,7 @@ export const enableValidation = (validationConfig) => {
   // Переберём полученную коллекцию
   formList.forEach((formElement) => {
     // Для каждой формы вызовем функцию setEventListeners,
-    
+
     // передав ей элемент формы
     setEventListeners(validationConfig, formElement);
   });
