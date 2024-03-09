@@ -36,8 +36,21 @@ export const myDatas = (myselfObject) => {
       name: myselfObject.nameMy,
       about: myselfObject.jobMy,
     }),
-  });
+  })
+  .then(checkResponse);
 };
+
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return res.json()
+    .then((error) => {
+      error.httpResponseCode = res.status;
+      return Promise.reject(error);
+  })
+}
+
 //Запрос на отправку карточки на сервер
 export const addCardServer = (newObjectCard) => {
   return fetch(`${config.baseUrl}/cards`, {
@@ -46,9 +59,12 @@ export const addCardServer = (newObjectCard) => {
     body: JSON.stringify({
       name: newObjectCard.nameCard,
       link: newObjectCard.linkCard,
+      
     }),
-  });
+  })
+    .then(checkResponse);
 };
+
 
 //Запрос на сервер на удаление карточки
 
@@ -56,7 +72,8 @@ export const deleteCardServer = (cardID) => {
   return fetch(`${config.baseUrl}/cards/${cardID}`, {
     headers: config.headers,
     method: "DELETE",
-  });
+  })
+  .then(checkResponse);
 };
 
 //Запрос на сервер на установку - удаление лайков
@@ -65,7 +82,8 @@ export const toggleLike = (cardID, isLiked) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
     method: isLiked ? "DELETE" : "PUT",
     headers: config.headers,
-  });
+  })
+  .then(checkResponse);
 };
 
 //Запрос на сервер на обновление Аватара
@@ -77,5 +95,9 @@ export const updateUserAvatar = (linkAvatar) => {
     body: JSON.stringify({
       avatar: linkAvatar,
     }),
-  });
+  })
+  .then(checkResponse);
 };
+
+
+

@@ -42,7 +42,8 @@ import {
   deleteCardServer,
 } from "./components/api.js";
 import { validationConfig } from "./components/constants.js";
-let myData = 0;
+
+//let myData = 0;
 
 popupTypeEdit.addEventListener("click", closeOverlay);
 
@@ -57,18 +58,25 @@ popupTypeEditClose.addEventListener("click", () => {
 });
 
 profileAddButton.addEventListener("click", () => {
+  clearValidation(formCard, validationConfig);
   setTimeout(() => {
     openModal(popupTypeNewCard), 100;
   });
+  
   formCard.reset();
+  
+  
 });
 
 profileImage.addEventListener("click", () => {
+  clearValidation(formAvatar, validationConfig);
   setTimeout(() => {
     openModal(popupTypeAvatar), 100;
+
   });
 
   formAvatar.reset();
+  
 });
 
 popupTypeNewCardClose.addEventListener("click", () => {
@@ -132,30 +140,27 @@ function formSubmit(evt) {
   const newObjectCard = {
     nameCard: nameCardInput.value,
     linkCard: linkCardInput.value,
-  };
-  const myIDd = myData;
-  const ownerIDd = myData;
-  const cardlike = [];
-  const cardIDd = 0;
 
+  };
+  
   addCardServer(newObjectCard).then((data) => {
+    console.dir(data);
     const newCard = addCard(
-      nameCardInput.value,
-      linkCardInput.value,
+      data.name,
+      data.link,
       deleteCard,
       openFullScreen,
       likeCard,
-      myIDd,
-      ownerIDd,
-      cardlike,
-      cardIDd
+      data.owner._id,
+      data.owner._id,
+      data.likes,
+      data._id
     );
-
+    console.log(data._id);
+    
     //Создание новой карточки
     placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
     formCard.reset(); //Очищаем поля формы
-    // submitButton.classList.add (validationConfig.inactiveButtonClass);
-
     closeModal(popupTypeNewCard);
   });
 }
@@ -183,11 +188,13 @@ Promise.all(promises).then(([user, cards]) => {
   profileImage.style.backgroundImage = `url(${user.avatar})`;
   profileTitle.textContent = user.name;
   profileDescription.textContent = user.about;
-  myData = user._id;
+  //myData = user._id;
+  /*
   console.log(user);
   console.log(myData);
   console.log(profileTitle.textContent);
-  console.log(profileDescription.textContent);
+  console.log(profileDescription.textContent)
+  */
   cards.forEach((card) => {
     placesList.append(
       addCard(
@@ -202,10 +209,6 @@ Promise.all(promises).then(([user, cards]) => {
         card._id
       )
     );
-    console.log(user._id);
-    console.log(card.owner._id);
-    console.log(card._id);
-    console.log(card.likes);
   });
   console.log(cards);
 });

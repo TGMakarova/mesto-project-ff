@@ -15,8 +15,12 @@
 .profile__image:hover {
   opacity: 0.6;
   cursor: pointer;
-  background: transparent url("../../../images/add-icon.svg") center no-repeat;
-
+  /*background-image: transparent url(../../../images/edit-icon.svg) center no-repeat;
+  width: 10px;
+  height: 10px;
+  /*z-index: 4;*/
+  
+}
 
 @media screen and (max-width: 740px) {
   .profile__image {
