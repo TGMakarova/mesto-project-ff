@@ -1,5 +1,5 @@
 import "./pages/index.css";
-import { addCard, deleteCard, likeCard } from "./components/cards.js";
+import { addCard, deleteCard } from "./components/cards.js";
 import { closeModal, openModal, closeOverlay } from "./components/modal.js";
 
 import { enableValidation, clearValidation } from "./components/validation.js";
@@ -15,7 +15,6 @@ import {
   popupTypeNewCard,
   popupTypeNewCardClose,
   popupTypeImageClose,
-  popupNewCardSpan,
 } from "./components/constants.js";
 import { profileTitle, profileDescription } from "./components/constants.js";
 import {
@@ -28,7 +27,7 @@ import {
   popupTypeAvatarClose,
 } from "./components/constants.js";
 import {
-  amUser,
+  receiveUser,
   receiveCards,
   sendMyDatas,
   addCardServer,
@@ -87,26 +86,35 @@ const descriptionTypeEdit = formTypeEdit.elements.description; //Обращае�
 
 profileEditButton.addEventListener("click", () => {
   clearValidation(formTypeEdit, validationConfig);
+  formTypeEdit.querySelector('[type="submit"]').disabled = false;
   openModal(popupTypeEdit);
   nameTypeEdit.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
   descriptionTypeEdit.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
 
-function handleFormSubmit(evt) {
+function handleTypeEditFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const myselfObject = {
     nameMy: nameTypeEdit.value,
     jobMy: descriptionTypeEdit.value,
   };
-  popupTypeEditClose.textContent = "Сохраняется...";
+  popupTypeEditClose.textContent = "Сохранение...";
   sendMyDatas(myselfObject)
     .then((data) => {
       profileTitle.textContent = myselfObject.nameMy;
       profileDescription.textContent = myselfObject.jobMy;
       closeModal(popupTypeEdit);
     })
+    .catch((err) => {
+      console.log(err);
+      formTypeEdit.querySelector('[type="submit"]').disabled = true;
+    })
+
     .finally(() => {
       popupTypeEditClose.textContent = "Сохранить";
+      if (popupTypeEdit.classList.contains("popup_is-opened")) {
+        formTypeEdit.querySelector('[type="submit"]').disabled = false;
+      }
     });
 }
 
@@ -115,30 +123,39 @@ const formCard = document.querySelector('[name="new-place"]'); // Восполь
 const nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
 const linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
 
-function formSubmitNewCard(evt) {
+function submitNewCard(evt) {
   evt.preventDefault();
   const newObjectCard = {
     nameCard: nameCardInput.value,
     linkCard: linkCardInput.value,
   };
 
-  addCardServer(newObjectCard).then((data) => {
-    const newCard = addCard(
-      data.name,
-      data.link,
-      deleteCard,
-      openFullScreen,
-      likeCard,
-      data.owner._id,
-      data.owner._id,
-      data.likes,
-      data._id
-    );
+  addCardServer(newObjectCard)
+    .then((data) => {
+      const newCard = addCard(
+        data.name,
+        data.link,
+        deleteCard,
+        openFullScreen,
+        data.owner._id,
+        data.owner._id,
+        data.likes,
+        data._id
+      );
 
-    placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
-    formCard.reset(); //Очищаем поля формы
-    closeModal(popupTypeNewCard);
-  });
+      placesList.prepend(newCard); //Вставляем новyю карточку в начало контейнера
+      formCard.reset(); //Очищаем поля формы
+      closeModal(popupTypeNewCard);
+    })
+    .catch((err) => {
+      console.log(err);
+      formCard.querySelector('[type="submit"]').disabled = true;
+    })
+    .finally(() => {
+      if (popupTypeImage.classList.contains("popup_is-opened")) {
+        formCard.querySelector('[type="submit"]').disabled = false;
+      }
+    });
 }
 
 // Находим поля формы аватара в DOM
@@ -149,46 +166,59 @@ const linkAvatarInput = formAvatar.link;
 function submitAvatarLink(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const linkAvatar = linkAvatarInput.value;
-  console.log(linkAvatar);
-  updateUserAvatar(linkAvatar).then((data) => {
-    profileImage.style.backgroundImage = `url(${linkAvatar})`;
-    closeModal(popupTypeAvatar);
-  });
+  popupTypeAvatarClose.textContent = "Сохранение...";
+  updateUserAvatar(linkAvatar)
+    .then((data) => {
+      profileImage.style.backgroundImage = `url(${linkAvatar})`;
+      closeModal(popupTypeAvatar);
+    })
+    .catch((err) => {
+      console.log(err);
+      formAvatar.querySelector('[type="submit"]').disabled = true;
+    })
+    .finally(() => {
+      popupTypeAvatarClose.textContent = "Сохранить";
+      if (popupTypeAvatar.classList.contains("popup_is-opened")) {
+        formAvatar.querySelector('[type="submit"]').disabled = false;
+      }
+    });
 }
 
 // Вызовем функцию
 enableValidation(validationConfig);
 
-const promises = [amUser(), receiveCards()];
-Promise.all(promises).then(([user, cards]) => {
-  profileImage.style.backgroundImage = `url(${user.avatar})`;
-  profileTitle.textContent = user.name;
-  profileDescription.textContent = user.about;
-  cards.forEach((card) => {
-    placesList.append(
-      addCard(
-        card.name,
-        card.link,
-        deleteCard,
-        openFullScreen,
-        likeCard,
-        user._id,
-        card.owner._id,
-        card.likes,
-        card._id
-      )
-    );
+const promises = [receiveUser(), receiveCards()];
+Promise.all(promises)
+  .then(([user, cards]) => {
+    profileImage.style.backgroundImage = `url(${user.avatar})`;
+    profileTitle.textContent = user.name;
+    profileDescription.textContent = user.about;
+    cards.forEach((card) => {
+      placesList.append(
+        addCard(
+          card.name,
+          card.link,
+          deleteCard,
+          openFullScreen,
+          user._id,
+          card.owner._id,
+          card.likes,
+          card._id
+        )
+      );
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
-  console.log(cards);
-});
 
 formTypeEdit.addEventListener("submit", (evt) => {
-  handleFormSubmit(evt);
+  handleTypeEditFormSubmit(evt);
   formTypeEdit.querySelector('[type="submit"]').disabled = true;
 });
 
 formCard.addEventListener("submit", (evt) => {
-  formSubmitNewCard(evt);
+  submitNewCard(evt);
   formCard.querySelector('[type="submit"]').disabled = true;
 });
 

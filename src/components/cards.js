@@ -4,13 +4,13 @@ const cardTemplate = document.querySelector("#card-template").content;
 // @todo: Функция удаления карточки
 
 export function deleteCard(card, cardID) {
-  deleteCardServer(cardID).then((data) => {
-    card.remove();
-  });
-}
-
-export function likeCard(evt) {
-  evt.target.classList.toggle("card__like-button_is-active");
+  deleteCardServer(cardID)
+    .then((data) => {
+      card.remove();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 // @todo: Функция создания карточки
@@ -20,7 +20,6 @@ export function addCard(
   link,
   deleteCard,
   openFullScreen,
-  likeCard,
   myID,
   ownerID,
   likeNumber,
@@ -36,7 +35,6 @@ export function addCard(
   cardCounter.textContent = likeNumber.length;
 
   const renderLikes = () => {
-    //
     if (likeNumber.some((likeNumber) => likeNumber._id === myID)) {
       cardLikeButton.classList.add("card__like-button_is-active");
     } else {
@@ -65,12 +63,14 @@ export function addCard(
     toggleLike(
       cardID,
       cardLikeButton.classList.contains("card__like-button_is-active")
-    ).then((data) => {
-      console.dir(data);
-      cardCounter.textContent = data.likes.length;
-      console.log(cardCounter.textContent);
-      cardLikeButton.classList.toggle("card__like-button_is-active");
-    });
+    )
+      .then((data) => {
+        cardCounter.textContent = data.likes.length;
+        cardLikeButton.classList.toggle("card__like-button_is-active");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
   return cardElement;
 }

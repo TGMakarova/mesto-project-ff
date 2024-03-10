@@ -5,7 +5,6 @@ function closeEscape(evt) {
 
     if (popupOpened) {
       closeModal(popupOpened);
-      document.removeEventListener("click", closeEscape);
     }
   }
 }
