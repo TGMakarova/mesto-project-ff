@@ -49,12 +49,14 @@ popupTypeEditClose.addEventListener("click", () => {
 
 profileAddButton.addEventListener("click", () => {
   clearValidation(formCard, validationConfig);
+  formCard.querySelector('[type="submit"]').disabled = true;
   openModal(popupTypeNewCard);
   formCard.reset();
 });
 
 profileImage.addEventListener("click", () => {
   clearValidation(formAvatar, validationConfig);
+  formAvatar.querySelector('[type="submit"]').disabled = true;
   openModal(popupTypeAvatar);
   formAvatar.reset();
 });
@@ -129,8 +131,9 @@ function submitNewCard(evt) {
     nameCard: nameCardInput.value,
     linkCard: linkCardInput.value,
   };
-
+  popupTypeNewCardClose.textContent = "Сохранение...";
   addCardServer(newObjectCard)
+  
     .then((data) => {
       const newCard = addCard(
         data.name,
@@ -151,8 +154,8 @@ function submitNewCard(evt) {
       console.log(err);
       formCard.querySelector('[type="submit"]').disabled = true;
     })
-    .finally(() => {
-      if (popupTypeImage.classList.contains("popup_is-opened")) {
+    .finally(() => {popupTypeNewCardClose.textContent = "Создать";
+      if (popupTypeNewCard.classList.contains("popup_is-opened")) {
         formCard.querySelector('[type="submit"]').disabled = false;
       }
     });
