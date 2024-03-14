@@ -100,7 +100,7 @@ function handleTypeEditFormSubmit(evt) {
     nameMy: nameTypeEdit.value,
     jobMy: descriptionTypeEdit.value,
   };
-  popupTypeEditClose.textContent = "Сохранение...";
+  formTypeEdit.querySelector('[type="submit"]').textContent = "Сохранение...";
   sendMyDatas(myselfObject)
     .then((data) => {
       profileTitle.textContent = myselfObject.nameMy;
@@ -113,7 +113,7 @@ function handleTypeEditFormSubmit(evt) {
     })
 
     .finally(() => {
-      popupTypeEditClose.textContent = "Сохранить";
+      formTypeEdit.querySelector('[type="submit"]').textContent = "Сохранить";
       if (popupTypeEdit.classList.contains("popup_is-opened")) {
         formTypeEdit.querySelector('[type="submit"]').disabled = false;
       }
@@ -131,9 +131,8 @@ function submitNewCard(evt) {
     nameCard: nameCardInput.value,
     linkCard: linkCardInput.value,
   };
-  popupTypeNewCardClose.textContent = "Сохранение...";
+  formCard.querySelector('[type="submit"]').textContent = "Сохранение...";
   addCardServer(newObjectCard)
-  
     .then((data) => {
       const newCard = addCard(
         data.name,
@@ -154,7 +153,8 @@ function submitNewCard(evt) {
       console.log(err);
       formCard.querySelector('[type="submit"]').disabled = true;
     })
-    .finally(() => {popupTypeNewCardClose.textContent = "Создать";
+    .finally(() => {
+      formCard.querySelector('[type="submit"]').textContent = "Создать";
       if (popupTypeNewCard.classList.contains("popup_is-opened")) {
         formCard.querySelector('[type="submit"]').disabled = false;
       }
@@ -169,7 +169,7 @@ const linkAvatarInput = formAvatar.link;
 function submitAvatarLink(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const linkAvatar = linkAvatarInput.value;
-  popupTypeAvatarClose.textContent = "Сохранение...";
+  formAvatar.querySelector('[type="submit"]').textContent = "Сохранение...";
   updateUserAvatar(linkAvatar)
     .then((data) => {
       profileImage.style.backgroundImage = `url(${linkAvatar})`;
@@ -180,7 +180,7 @@ function submitAvatarLink(evt) {
       formAvatar.querySelector('[type="submit"]').disabled = true;
     })
     .finally(() => {
-      popupTypeAvatarClose.textContent = "Сохранить";
+      formAvatar.querySelector('[type="submit"]').textContent = "Сохранить";
       if (popupTypeAvatar.classList.contains("popup_is-opened")) {
         formAvatar.querySelector('[type="submit"]').disabled = false;
       }
