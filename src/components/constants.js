@@ -15,25 +15,17 @@ export const profileImage = document.querySelector(".profile__image"); //Нах�
 
 //DOM -элементы попапа редактирования профиля
 export const popupTypeEdit = document.querySelector(".popup_type_edit"); //Редактирование попапа
-export const popupTypeEditClose = popupTypeEdit.querySelector(".popup__close"); //Закрытие попапа редактирования профиля
 
 //DOM - элементы попапа редактирования карточек
 export const popupTypeNewCard = document.querySelector(".popup_type_new-card"); // Редактирование новой карточки попапа
-export const popupTypeNewCardClose =
-  popupTypeNewCard.querySelector(".popup__close"); //Закрытие попапа редактирования новой карточки
 
 //DOM - элементы попапа редактирования изображений
-export const popupTypeImageClose = document.querySelector(
-  ".popup_type_image .popup__close"
-); //Закрытите попапа по изображению
 export const popupTypeImage = document.querySelector(".popup_type_image");
 export const popupImage = popupTypeImage.querySelector(".popup__image");
 export const popupCaption = popupTypeImage.querySelector(".popup__caption");
 
 //DOM  - элементы редактирования аватара
 export const popupTypeAvatar = document.querySelector(".popup_type_avatar"); // Редактирование  попапа аватара
-export const popupTypeAvatarClose =
-  popupTypeAvatar.querySelector(".popup__close"); //Закрытие  попапа аватара
 export const popupTypeAvatarInput = document.querySelector(
   ".popup__input .popup__input_type_url .popup__url"
 );

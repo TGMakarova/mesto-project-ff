@@ -9,17 +9,13 @@ function closeEscape(evt) {
   }
 }
 
-//Создание функции выхода по Overlay
-export function closeOverlay(evt) {
-  if (evt.target.classList.contains("popup_is-opened")) {
-    closeModal(evt.target);
-  }
-}
-
 //Создание функции открытия модального окна
 
 export function openModal(popup) {
-  popup.classList.add("popup_is-opened");
+  popup.classList.add("popup_is-animated");
+  setTimeout(() => {
+    popup.classList.add("popup_is-opened");
+  }, 1);
   document.addEventListener("keydown", closeEscape);
 }
 

@@ -1,6 +1,6 @@
 import "./pages/index.css";
 import { addCard, deleteCard } from "./components/cards.js";
-import { closeModal, openModal, closeOverlay } from "./components/modal.js";
+import { closeModal, openModal } from "./components/modal.js";
 
 import { enableValidation, clearValidation } from "./components/validation.js";
 import {
@@ -8,24 +8,16 @@ import {
   profileEditButton,
   profileAddButton,
   popupTypeEdit,
-  popupTypeEditClose,
   profileImage,
 } from "./components/constants.js";
-import {
-  popupTypeNewCard,
-  popupTypeNewCardClose,
-  popupTypeImageClose,
-} from "./components/constants.js";
+import { popupTypeNewCard } from "./components/constants.js";
 import { profileTitle, profileDescription } from "./components/constants.js";
 import {
   popupTypeImage,
   popupImage,
   popupCaption,
 } from "./components/constants.js";
-import {
-  popupTypeAvatar,
-  popupTypeAvatarClose,
-} from "./components/constants.js";
+import { popupTypeAvatar } from "./components/constants.js";
 import {
   receiveUser,
   receiveCards,
@@ -33,40 +25,39 @@ import {
   addCardServer,
   updateUserAvatar,
 } from "./components/api.js";
+
 import { validationConfig } from "./components/constants.js";
 
-popupTypeEdit.addEventListener("click", closeOverlay);
+//Находим все попапы
+const popups = document.querySelectorAll(".popup");
 
-popupTypeNewCard.addEventListener("click", closeOverlay);
+//Первоначальное заполнение данными профиля: имя и знятие
+const formTypeEdit = document.forms["edit-profile"]; //Обращаемся к форме редактирования профиля
+const nameTypeEdit = formTypeEdit.elements.name; //Обращаемся к элементу формы имя
+const descriptionTypeEdit = formTypeEdit.elements.description; //Обращаемся к элементу формы занятие
+const formTypeEditSubmit = formTypeEdit.querySelector('[type="submit"]');
 
-popupTypeImage.addEventListener("click", closeOverlay);
+// Находим форму и поля формы карточки в DOM
+const formCard = document.forms["new-place"]; // Воспользуйтесь методом querySelector()
+const nameCardInput = formCard.elements["place-name"]; // Воспользуйтесь инструментом .querySelector()
+const linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
+const formCardSubmit = formCard.querySelector('[type="submit"]');
 
-popupTypeAvatar.addEventListener("click", closeOverlay);
+// Находим поля формы аватара в DOM
+const formAvatar = document.forms["new-avatar"];
+const linkAvatarInput = formAvatar.link;
+const formAvatarSubmit = formAvatar.querySelector('[type="submit"]');
 
-popupTypeEditClose.addEventListener("click", () => {
-  closeModal(popupTypeEdit);
-});
-
-profileAddButton.addEventListener("click", () => {
-  clearValidation(formCard, validationConfig);
-  formCard.querySelector('[type="submit"]').disabled = true;
-  openModal(popupTypeNewCard);
-  formCard.reset();
-});
-
-profileImage.addEventListener("click", () => {
-  clearValidation(formAvatar, validationConfig);
-  formAvatar.querySelector('[type="submit"]').disabled = true;
-  openModal(popupTypeAvatar);
-  formAvatar.reset();
-});
-
-popupTypeNewCardClose.addEventListener("click", () => {
-  closeModal(popupTypeNewCard);
-});
-
-popupTypeImageClose.addEventListener("click", () => {
-  closeModal(popupTypeImage);
+//Для каждого попапа создаем функцию закрытия по кнопке "крестик" и  по overlay
+popups.forEach((popup) => {
+  popup.addEventListener("mousedown", (evt) => {
+    if (evt.target.classList.contains("popup__close")) {
+      closeModal(popup);
+    }
+    if (evt.target.classList.contains("popup_is-opened")) {
+      closeModal(popup);
+    }
+  });
 });
 
 //Создание функции полного экрана
@@ -77,30 +68,39 @@ function openFullScreen(name, link) {
   openModal(popupTypeImage);
 }
 
-popupTypeAvatarClose.addEventListener("click", () => {
-  closeModal(popupTypeAvatar);
-});
-
-//Первоначальное заполнение данными профиля: имя и знятие
-const formTypeEdit = document.querySelector('[name="edit-profile"]'); //Обращаемся к форме редактирования профиля
-const nameTypeEdit = formTypeEdit.elements.name; //Обращаемся к элементу формы имя
-const descriptionTypeEdit = formTypeEdit.elements.description; //Обращаемся к элементу формы занятие
-
+//Открытие формы профиля с предварительной валидацией
 profileEditButton.addEventListener("click", () => {
   clearValidation(formTypeEdit, validationConfig);
-  formTypeEdit.querySelector('[type="submit"]').disabled = false;
+  formTypeEditSubmit.disabled = false;
   openModal(popupTypeEdit);
   nameTypeEdit.value = profileTitle.textContent; //Присваиваем значение элементу формы имя
   descriptionTypeEdit.value = profileDescription.textContent; //Присваиваем значение элементу формы занятие
 });
 
+// Открытие формы карточки с предварительной валидацией
+profileAddButton.addEventListener("click", () => {
+  clearValidation(formCard, validationConfig);
+  formCardSubmit.disabled = true;
+  openModal(popupTypeNewCard);
+  formCard.reset();
+});
+
+// Открытие формы аватара с предварительной валидацией
+profileImage.addEventListener("click", () => {
+  clearValidation(formAvatar, validationConfig);
+  formAvatarSubmit.disabled = true;
+  openModal(popupTypeAvatar);
+  formAvatar.reset();
+});
+
+//Функция отправки новых данных профиля
 function handleTypeEditFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const myselfObject = {
     nameMy: nameTypeEdit.value,
     jobMy: descriptionTypeEdit.value,
   };
-  formTypeEdit.querySelector('[type="submit"]').textContent = "Сохранение...";
+  formTypeEditSubmit.textContent = "Сохранение...";
   sendMyDatas(myselfObject)
     .then((data) => {
       profileTitle.textContent = myselfObject.nameMy;
@@ -109,29 +109,24 @@ function handleTypeEditFormSubmit(evt) {
     })
     .catch((err) => {
       console.log(err);
-      formTypeEdit.querySelector('[type="submit"]').disabled = true;
+      formTypeEditSubmit.disabled = true;
     })
-
     .finally(() => {
-      formTypeEdit.querySelector('[type="submit"]').textContent = "Сохранить";
+      formTypeEditSubmit.textContent = "Сохранить";
       if (popupTypeEdit.classList.contains("popup_is-opened")) {
-        formTypeEdit.querySelector('[type="submit"]').disabled = false;
+        formTypeEditSubmit.disabled = false;
       }
     });
 }
 
-// Находим форму и поля формы в DOM
-const formCard = document.querySelector('[name="new-place"]'); // Воспользуйтесь методом querySelector()
-const nameCardInput = formCard.querySelector('[name="place-name"]'); // Воспользуйтесь инструментом .querySelector()
-const linkCardInput = formCard.link; // Воспользуйтесь инструментом .querySelector()
-
+//Функция отправки новой карточки
 function submitNewCard(evt) {
   evt.preventDefault();
   const newObjectCard = {
     nameCard: nameCardInput.value,
     linkCard: linkCardInput.value,
   };
-  formCard.querySelector('[type="submit"]').textContent = "Сохранение...";
+  formCardSubmit.textContent = "Сохранение...";
   addCardServer(newObjectCard)
     .then((data) => {
       const newCard = addCard(
@@ -151,25 +146,21 @@ function submitNewCard(evt) {
     })
     .catch((err) => {
       console.log(err);
-      formCard.querySelector('[type="submit"]').disabled = true;
+      formCardSubmit.disabled = true;
     })
     .finally(() => {
-      formCard.querySelector('[type="submit"]').textContent = "Создать";
+      formCardSubmit.textContent = "Создать";
       if (popupTypeNewCard.classList.contains("popup_is-opened")) {
-        formCard.querySelector('[type="submit"]').disabled = false;
+        formCardSubmit.disabled = false;
       }
     });
 }
-
-// Находим поля формы аватара в DOM
-const formAvatar = document.querySelector('[name="new-avatar"]');
-const linkAvatarInput = formAvatar.link;
 
 //Создаем функцию редактирования аватара
 function submitAvatarLink(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   const linkAvatar = linkAvatarInput.value;
-  formAvatar.querySelector('[type="submit"]').textContent = "Сохранение...";
+  formAvatarSubmit.textContent = "Сохранение...";
   updateUserAvatar(linkAvatar)
     .then((data) => {
       profileImage.style.backgroundImage = `url(${linkAvatar})`;
@@ -177,12 +168,12 @@ function submitAvatarLink(evt) {
     })
     .catch((err) => {
       console.log(err);
-      formAvatar.querySelector('[type="submit"]').disabled = true;
+      formAvatarSubmit.disabled = true;
     })
     .finally(() => {
-      formAvatar.querySelector('[type="submit"]').textContent = "Сохранить";
+      formAvatarSubmit.textContent = "Сохранить";
       if (popupTypeAvatar.classList.contains("popup_is-opened")) {
-        formAvatar.querySelector('[type="submit"]').disabled = false;
+        formAvatarSubmit.disabled = false;
       }
     });
 }
@@ -217,15 +208,15 @@ Promise.all(promises)
 
 formTypeEdit.addEventListener("submit", (evt) => {
   handleTypeEditFormSubmit(evt);
-  formTypeEdit.querySelector('[type="submit"]').disabled = true;
+  formTypeEditSubmit.disabled = true;
 });
 
 formCard.addEventListener("submit", (evt) => {
   submitNewCard(evt);
-  formCard.querySelector('[type="submit"]').disabled = true;
+  formCardSubmit.disabled = true;
 });
 
 formAvatar.addEventListener("submit", (evt) => {
   submitAvatarLink(evt);
-  formAvatar.querySelector('[type="submit"]').disabled = true;
+  formAvatarSubmit.disabled = true;
 });
